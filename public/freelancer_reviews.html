@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Freelancer Reviews | FreelanceHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#2563eb", "on-surface-variant": "#434655", "primary": "#004ac6",
+                    "on-surface": "#191c1e", "error-container": "#ffdad6", "on-error-container": "#93000a",
+                    "background": "#f7f9fb", "secondary": "#565e74", "surface": "#f7f9fb", "on-primary": "#ffffff"
+            },
+            "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }
+          },
+        },
+      }
+    </script>
+<style>
+    body { font-family: 'Inter', sans-serif; background: #f7f9fb; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .card { background: #fff; border-radius: 0.75rem; border: 1px solid #f1f1f3; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .star { color: #f5a623; }
+    .star.empty { color: #e0e3e5; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="bg-white border-b border-gray-100 sticky top-0 z-20">
+  <div class="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/dashboard" class="text-xl font-bold text-primary">FreelanceHub</a>
+    <div class="flex items-center gap-4">
+      <button id="logoutBtn" class="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100">Log Out</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-6 py-8">
+  <a href="/dashboard" class="text-sm text-primary font-medium mb-4 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_back</span> Back to Dashboard</a>
+
+  <div id="loading" class="text-sm text-on-surface-variant mt-4">Loading reviews...</div>
+  <div id="errorBox" class="hidden mb-4 px-4 py-3 rounded-lg bg-error-container text-on-error-container text-sm"></div>
+
+  <div id="content" class="hidden">
+    <div class="card p-6 mb-6 text-center">
+      <p class="text-sm text-on-surface-variant mb-1">Average Rating</p>
+      <p class="text-4xl font-bold text-on-surface mb-2" id="avgRating"></p>
+      <div id="avgStars" class="mb-1"></div>
+      <p class="text-xs text-on-surface-variant" id="totalReviews"></p>
+    </div>
+
+    <div id="noReviews" class="hidden card p-8 text-center text-on-surface-variant text-sm">No reviews yet.</div>
+    <div id="reviewList" class="space-y-4"></div>
+  </div>
+</main>
+
+<script>
+const token = localStorage.getItem('access_token');
+if (!token) window.location.href = '/login';
+
+const pathParts = window.location.pathname.split('/').filter(Boolean);
+const userId = pathParts[1];
+
+async function api(path, options = {}) {
+    const res = await fetch(path, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            ...(options.headers || {})
+        }
+    });
+    const result = await res.json();
+    if (!result.success && res.status === 401) {
+        localStorage.clear();
+        window.location.href = '/login';
+        throw new Error('Unauthorized');
+    }
+    return { ok: result.success, status: res.status, result };
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
+function starRow(rating) {
+    let html = '';
+    for (let i = 1; i <= 5; i++) {
+        html += `<span class="star ${i <= Math.round(rating) ? '' : 'empty'}">★</span>`;
+    }
+    return html;
+}
+
+function reviewCard(r) {
+    return `
+    <div class="card p-4">
+      <div class="flex justify-between items-center mb-2">
+        <span class="font-semibold text-on-surface text-sm">${escapeHtml(r.client_name || 'Client')}</span>
+        <span class="text-sm">${starRow(r.rating)}</span>
+      </div>
+      ${r.comment ? `<p class="text-sm text-on-surface-variant">${escapeHtml(r.comment)}</p>` : '<p class="text-sm text-on-surface-variant italic">No comment left.</p>'}
+    </div>`;
+}
+
+async function load() {
+    const { ok, result } = await api(`/api/reviews/freelancer/${userId}?per_page=50`);
+    document.getElementById('loading').classList.add('hidden');
+
+    if (!ok) {
+        document.getElementById('errorBox').textContent = result.message || 'Could not load reviews.';
+        document.getElementById('errorBox').classList.remove('hidden');
+        return;
+    }
+
+    const { reviews, average_rating, total_reviews } = result.data;
+    document.getElementById('content').classList.remove('hidden');
+    document.getElementById('avgRating').textContent = average_rating != null ? average_rating.toFixed(1) : '—';
+    document.getElementById('avgStars').innerHTML = starRow(average_rating || 0);
+    document.getElementById('totalReviews').textContent = total_reviews + ' review' + (total_reviews === 1 ? '' : 's');
+
+    if (reviews.length === 0) {
+        document.getElementById('noReviews').classList.remove('hidden');
+        document.getElementById('reviewList').innerHTML = '';
+    } else {
+        document.getElementById('reviewList').innerHTML = reviews.map(reviewCard).join('');
+    }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try { await api('/api/auth/logout', { method: 'POST' }); } finally {
+        localStorage.clear();
+        window.location.href = '/login';
+    }
+});
+
+load();
+</script>
+</body>
+</html>

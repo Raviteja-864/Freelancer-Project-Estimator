@@ -1,0 +1,12 @@
+/find-work           /find_work.html         200
+/projects/new        /new_project.html       200
+/projects/:id        /project_detail.html    200
+/messages/:id        /messages.html          200
+/payments/:id        /payment.html           200
+/freelancers/:id/reviews /freelancer_reviews.html 200
+/projects/:id/review /project_review.html    200
+/login               /login.html             200
+/register            /register.html          200
+/dashboard           /dashboard.html         200
+/admin               /admin.html             200
+/*                   /index.html             200

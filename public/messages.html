@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Messages | FreelanceHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#005b7c", "surface-bright": "#f7f9fb", "on-primary-container": "#eeefff",
+                    "surface-container-highest": "#e0e3e5", "outline": "#737686", "surface-container-low": "#f2f4f6",
+                    "primary-container": "#2563eb", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#3f465c",
+                    "on-surface-variant": "#434655", "inverse-surface": "#2d3133", "primary": "#004ac6",
+                    "on-surface": "#191c1e", "error-container": "#ffdad6", "on-error-container": "#93000a",
+                    "inverse-on-surface": "#eff1f3", "secondary-fixed-dim": "#bec6e0", "on-secondary-container": "#5c647a",
+                    "on-error": "#ffffff", "on-background": "#191c1e", "tertiary-fixed": "#c4e7ff",
+                    "background": "#f7f9fb", "secondary": "#565e74", "surface-variant": "#e0e3e5",
+                    "tertiary-container": "#00759f", "outline-variant": "#c3c6d7", "on-primary-fixed-variant": "#003ea8",
+                    "surface": "#f7f9fb", "error": "#ba1a1a", "inverse-primary": "#b4c5ff",
+                    "on-secondary-fixed": "#131b2e", "on-tertiary-container": "#e1f2ff", "surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#004c69", "secondary-container": "#dae2fd", "secondary-fixed": "#dae2fd",
+                    "surface-tint": "#0053db", "primary-fixed-dim": "#b4c5ff", "on-tertiary-fixed": "#001e2c",
+                    "surface-dim": "#d8dadc", "on-primary": "#ffffff", "tertiary-fixed-dim": "#7bd0ff",
+                    "surface-container-high": "#e6e8ea", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#00174b", "primary-fixed": "#dbe1ff"
+            },
+            "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }
+          },
+        },
+      }
+    </script>
+<style>
+    body { font-family: 'Inter', sans-serif; background: #f7f9fb; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .card { background: #fff; border-radius: 0.75rem; border: 1px solid #f1f1f3; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .bubble-mine { background:#004ac6; color:#fff; border-radius: 1rem 1rem 0.25rem 1rem; }
+    .bubble-theirs { background:#f2f4f6; color:#191c1e; border-radius: 1rem 1rem 1rem 0.25rem; }
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="bg-white border-b border-gray-100 sticky top-0 z-20">
+  <div class="max-w-3xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-8">
+      <a href="/dashboard" class="text-xl font-bold text-primary">FreelanceHub</a>
+    </div>
+    <div class="flex items-center gap-4">
+      <span id="userName" class="text-sm text-on-surface-variant hidden sm:inline"></span>
+      <button id="logoutBtn" class="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100">Log Out</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-6 py-8">
+  <a id="backLink" href="/dashboard" class="text-sm text-primary font-medium mb-4 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_back</span> Back to Project</a>
+
+  <div id="loading" class="text-sm text-on-surface-variant mt-4">Loading conversation...</div>
+  <div id="errorBox" class="hidden mb-4 px-4 py-3 rounded-lg bg-error-container text-on-error-container text-sm"></div>
+
+  <div id="content" class="hidden card p-6">
+    <h1 class="text-lg font-bold text-on-surface mb-4" id="pTitle">Conversation</h1>
+    <div id="messageList" class="space-y-3 max-h-[50vh] overflow-y-auto pr-2 mb-4"></div>
+    <form id="sendForm" class="flex gap-2 pt-4 border-t border-gray-100">
+      <input id="messageInput" type="text" maxlength="5000" placeholder="Type a message..."
+             class="flex-1 px-4 py-2.5 bg-surface-container-low border border-gray-200 rounded-lg text-sm outline-none focus:border-primary" required/>
+      <button class="px-5 py-2.5 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-container" type="submit">Send</button>
+    </form>
+  </div>
+</main>
+
+<script>
+const token = localStorage.getItem('access_token');
+if (!token) window.location.href = '/login';
+
+const pathParts = window.location.pathname.split('/').filter(Boolean);
+const projectId = pathParts[1];
+document.getElementById('backLink').href = '/projects/' + projectId;
+
+let currentUser = null;
+let pollTimer = null;
+
+async function api(path, options = {}) {
+    const res = await fetch(path, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            ...(options.headers || {})
+        }
+    });
+    const result = await res.json();
+    if (!result.success && res.status === 401) {
+        localStorage.clear();
+        window.location.href = '/login';
+        throw new Error('Unauthorized');
+    }
+    return { ok: result.success, status: res.status, result };
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
+async function loadUser() {
+    const { ok, result } = await api('/api/auth/me');
+    if (!ok) return;
+    currentUser = result.data.user;
+    document.getElementById('userName').textContent = currentUser.name + ' (' + currentUser.role + ')';
+}
+
+function renderMessages(messages) {
+    const listEl = document.getElementById('messageList');
+    const wasNearBottom = listEl.scrollTop + listEl.clientHeight >= listEl.scrollHeight - 40;
+    listEl.innerHTML = messages.map(m => {
+        const mine = currentUser && m.sender_id === currentUser.id;
+        return `
+        <div class="flex ${mine ? 'justify-end' : 'justify-start'}">
+          <div class="max-w-[75%] px-4 py-2.5 ${mine ? 'bubble-mine' : 'bubble-theirs'}">
+            ${!mine ? `<div class="text-xs font-semibold opacity-70 mb-0.5">${escapeHtml(m.sender_name || 'User')}</div>` : ''}
+            <div class="text-sm">${escapeHtml(m.content)}</div>
+          </div>
+        </div>`;
+    }).join('');
+    if (wasNearBottom || listEl.dataset.first === undefined) {
+        listEl.scrollTop = listEl.scrollHeight;
+        listEl.dataset.first = 'done';
+    }
+}
+
+async function loadConversation(showLoading) {
+    if (showLoading) document.getElementById('loading').classList.remove('hidden');
+
+    const { ok, result } = await api(`/api/messages/project/${projectId}`);
+
+    if (showLoading) document.getElementById('loading').classList.add('hidden');
+
+    if (!ok) {
+        if (showLoading) {
+            document.getElementById('errorBox').textContent = result.message || 'Could not load this conversation.';
+            document.getElementById('errorBox').classList.remove('hidden');
+        }
+        if (pollTimer) clearInterval(pollTimer);
+        return;
+    }
+
+    document.getElementById('content').classList.remove('hidden');
+    document.getElementById('errorBox').classList.add('hidden');
+    renderMessages(result.data.messages);
+}
+
+document.getElementById('sendForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const input = document.getElementById('messageInput');
+    const content = input.value.trim();
+    if (!content) return;
+
+    const { ok, result } = await api('/api/messages', {
+        method: 'POST',
+        body: JSON.stringify({ project_id: parseInt(projectId), content })
+    });
+
+    if (!ok) {
+        alert(result.message || 'Could not send message.');
+        return;
+    }
+    input.value = '';
+    await loadConversation(false);
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try { await api('/api/auth/logout', { method: 'POST' }); } finally {
+        localStorage.clear();
+        window.location.href = '/login';
+    }
+});
+
+(async function init() {
+    await loadUser();
+    await loadConversation(true);
+    pollTimer = setInterval(() => loadConversation(false), 5000);
+})();
+
+window.addEventListener('beforeunload', () => {
+    if (pollTimer) clearInterval(pollTimer);
+});
+</script>
+</body>
+</html>

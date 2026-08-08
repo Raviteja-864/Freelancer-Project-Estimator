@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Browse Projects | FreelanceHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.3); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = { darkMode: "class", theme: { extend: {
+            "colors": {
+                    "tertiary": "#005b7c","surface-bright": "#f7f9fb","on-primary-container": "#eeefff",
+                    "surface-container-highest": "#e0e3e5","outline": "#737686","surface-container-low": "#f2f4f6",
+                    "primary-container": "#2563eb","on-tertiary": "#ffffff","on-secondary-fixed-variant": "#3f465c",
+                    "on-surface-variant": "#434655","inverse-surface": "#2d3133","primary": "#004ac6","on-surface": "#191c1e",
+                    "error-container": "#ffdad6","on-error-container": "#93000a","inverse-on-surface": "#eff1f3",
+                    "secondary-fixed-dim": "#bec6e0","on-secondary-container": "#5c647a","on-error": "#ffffff",
+                    "on-background": "#191c1e","tertiary-fixed": "#c4e7ff","background": "#f7f9fb","secondary": "#565e74",
+                    "surface-variant": "#e0e3e5","tertiary-container": "#00759f","outline-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8","surface": "#f7f9fb","error": "#ba1a1a","inverse-primary": "#b4c5ff",
+                    "on-secondary-fixed": "#131b2e","on-tertiary-container": "#e1f2ff","surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#004c69","secondary-container": "#dae2fd","secondary-fixed": "#dae2fd",
+                    "surface-tint": "#0053db","primary-fixed-dim": "#b4c5ff","on-tertiary-fixed": "#001e2c",
+                    "surface-dim": "#d8dadc","on-primary": "#ffffff","tertiary-fixed-dim": "#7bd0ff",
+                    "surface-container-high": "#e6e8ea","on-secondary": "#ffffff","surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#00174b","primary-fixed": "#dbe1ff"
+            },
+            "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+            "spacing": {"stack-md": "16px","container-max": "1440px","gutter": "24px","stack-sm": "8px",
+                    "margin-mobile": "16px","margin-desktop": "32px","stack-lg": "32px","sidebar-width": "280px"},
+            "fontFamily": {"body-lg": ["Inter"],"display": ["Inter"],"headline-md": ["Inter"],"headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"],"headline-lg": ["Inter"],"body-md": ["Inter"],"label-md": ["Inter"]},
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+      }}}
+    </script>
+</head>
+<body class="bg-surface text-on-surface min-h-screen overflow-x-hidden">
+<header class="bg-surface/70 backdrop-blur-md sticky top-0 z-50 border-b border-white/20 shadow-sm">
+<div class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="text-headline-md font-headline-md font-bold text-primary">FreelanceHub</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-primary font-bold border-b-2 border-primary text-label-md font-label-md" href="/find-work">Find Work</a>
+</nav>
+<div class="flex items-center gap-4" id="navActions">
+<button onclick="window.location.href='/login'" class="text-on-surface-variant hover:text-primary font-label-md transition-colors">Log In</button>
+<button onclick="window.location.href='/register'" class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md transition-transform">Join Now</button>
+</div>
+</div>
+</header>
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row min-h-[calc(100vh-72px)]">
+<main class="flex-1 flex flex-col md:flex-row gap-gutter p-gutter bg-surface-container-low">
+<div class="w-full md:w-72 space-y-6">
+<div class="glass-panel rounded-2xl p-6 shadow-sm border border-white/40">
+<div class="flex items-center justify-between mb-6">
+<h2 class="text-headline-md font-headline-md text-on-surface">Filters</h2>
+<button onclick="clearFilters()" class="text-primary text-label-sm font-bold hover:underline">Clear All</button>
+</div>
+<div class="mb-8">
+<label class="text-label-md font-bold text-on-surface-variant mb-4 block">Category</label>
+<div class="space-y-3" id="categoryFilters">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="cat-checkbox w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox" value="Web Development"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary transition-colors">Web Development</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="cat-checkbox w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox" value="UI/UX Design"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary transition-colors">UI/UX Design</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="cat-checkbox w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox" value="Mobile Apps"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary transition-colors">Mobile Apps</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="cat-checkbox w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary" type="checkbox" value="DevOps"/>
+<span class="text-body-md text-on-surface-variant group-hover:text-primary transition-colors">DevOps</span>
+</label>
+</div>
+</div>
+<div class="mb-8">
+<label class="text-label-md font-bold text-on-surface-variant mb-4 block">Max Budget</label>
+<div class="px-2">
+<input id="budgetRange" class="w-full h-2 bg-secondary-container rounded-lg appearance-none cursor-pointer accent-primary" max="5000" min="0" step="100" type="range" value="5000"/>
+<div class="flex justify-between mt-3 text-label-sm text-secondary font-medium">
+<span>$0</span>
+<span id="budgetValue">$5,000+</span>
+</div>
+</div>
+</div>
+<div class="text-label-sm text-outline italic">Experience-level filtering is coming soon.</div>
+</div>
+</div>
+<div class="flex-1 flex flex-col gap-6">
+<div class="space-y-4">
+<div class="flex flex-col md:flex-row gap-4">
+<div class="flex-1 relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">search</span>
+<input id="searchInput" class="w-full pl-12 pr-4 py-4 rounded-2xl bg-white border-none shadow-sm focus:ring-2 focus:ring-primary transition-all text-body-md placeholder:text-outline/60" placeholder="Search for projects, tech stacks, or keywords..." type="text"/>
+</div>
+<div class="flex items-center gap-3">
+<span class="text-label-md text-secondary whitespace-nowrap">Sort by:</span>
+<select id="sortSelect" class="bg-white border-none rounded-xl px-4 py-4 text-label-md font-bold text-on-surface shadow-sm focus:ring-2 focus:ring-primary cursor-pointer">
+<option value="newest">Newest First</option>
+<option value="budget_desc">Highest Budget</option>
+<option value="bids_asc">Lowest Bids</option>
+</select>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 gap-4" id="projectsGrid">
+<div class="glass-panel p-6 rounded-2xl text-secondary">Loading projects...</div>
+</div>
+<div class="flex items-center justify-between py-stack-lg border-t border-outline-variant/30 mt-6">
+<button id="prevBtn" onclick="changePage(-1)" class="flex items-center gap-2 px-4 py-2 text-label-md font-bold text-secondary hover:text-primary transition-colors disabled:opacity-50">
+<span class="material-symbols-outlined">arrow_back</span> Previous
+</button>
+<div id="pageInfo" class="text-label-md text-secondary">Page 1</div>
+<button id="nextBtn" onclick="changePage(1)" class="flex items-center gap-2 px-4 py-2 text-label-md font-bold text-secondary hover:text-primary transition-colors">
+Next <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</main>
+</div>
+<footer class="bg-surface-container-high border-t border-outline-variant/30">
+<div class="w-full py-stack-lg px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+<div class="text-headline-md font-bold text-on-surface">FreelanceHub</div>
+<div class="text-secondary text-body-md font-body-md text-center md:text-right">© 2024 FreelanceHub Inc. All rights reserved.</div>
+</div>
+</footer>
+<script>
+const token = localStorage.getItem('access_token');
+const storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+let currentPage = 1;
+let totalPages = 1;
+
+if (token && storedUser) {
+    document.getElementById('navActions').innerHTML =
+        `<button onclick="window.location.href='/dashboard'" class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-md">Dashboard</button>`;
+}
+
+// Projects this freelancer has already bid on (so we don't show "Apply Now" twice)
+let appliedProjectIds = new Set();
+async function loadAppliedProjectIds() {
+    if (!token || !storedUser || storedUser.role !== 'freelancer') return;
+    try {
+        const res = await fetch('/api/bids/mine?per_page=100', { headers: { 'Authorization': 'Bearer ' + token } });
+        const result = await res.json();
+        if (result.success) {
+            appliedProjectIds = new Set((result.data.bids || []).map(b => String(b.project_id)));
+        }
+    } catch (e) { /* non-fatal — worst case Apply Now stays visible */ }
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
+function formatBudget(p) {
+    if (p.budget_min == null && p.budget_max == null) return 'Budget not specified';
+    if (p.budget_min != null && p.budget_max != null) return `$${p.budget_min} - $${p.budget_max}`;
+    return `$${p.budget_min ?? p.budget_max}`;
+}
+
+function timeAgo(iso) {
+    if (!iso) return '';
+    const diffMs = Date.now() - new Date(iso).getTime();
+    const hrs = Math.floor(diffMs / 3600000);
+    if (hrs < 1) return 'Just now';
+    if (hrs < 24) return `Posted ${hrs} hour${hrs === 1 ? '' : 's'} ago`;
+    const days = Math.floor(hrs / 24);
+    return `Posted ${days} day${days === 1 ? '' : 's'} ago`;
+}
+
+function projectCard(p) {
+    return `
+    <div class="glass-panel p-6 rounded-2xl shadow-sm border border-white/50 hover:shadow-md transition-all flex flex-col md:flex-row gap-6">
+        <div class="flex-1">
+            <div class="flex justify-between items-start mb-2">
+                <h3 class="text-headline-md font-bold text-on-surface">${escapeHtml(p.title)}</h3>
+            </div>
+            <div class="flex flex-wrap gap-4 mb-4">
+                <div class="flex items-center gap-1.5 text-label-sm font-bold text-tertiary bg-tertiary-fixed px-3 py-1 rounded-full">
+                    <span class="material-symbols-outlined text-[16px]">payments</span>${formatBudget(p)}
+                </div>
+                <div class="flex items-center gap-1.5 text-label-sm text-secondary">
+                    <span class="material-symbols-outlined text-[16px]">schedule</span>${timeAgo(p.created_at)}
+                </div>
+                <div class="flex items-center gap-1.5 text-label-sm text-secondary">
+                    <span class="material-symbols-outlined text-[16px]">person</span>${p.bid_count} Bid${p.bid_count === 1 ? '' : 's'}
+                </div>
+            </div>
+            <p class="text-body-md text-on-surface-variant mb-6 line-clamp-2">${escapeHtml(p.description)}</p>
+            ${p.category ? `<span class="bg-surface-container text-on-surface-variant px-3 py-1 rounded-lg text-label-sm font-medium">${escapeHtml(p.category)}</span>` : ''}
+        </div>
+        <div class="md:w-48 flex md:flex-col justify-center items-stretch gap-3">
+            ${applyButton(p)}
+            <button onclick="window.location.href='/projects/${p.id}'" class="border border-outline-variant text-on-surface-variant px-6 py-3 rounded-xl font-label-md hover:bg-surface-variant/20 transition-colors">View Details</button>
+        </div>
+    </div>`;
+}
+
+function applyButton(p) {
+    // Not logged in — send to login, then back here
+    if (!token || !storedUser) {
+        return `<button onclick="window.location.href='/login'" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-md shadow-sm hover:translate-y-[-2px] active:scale-95 transition-all">Log In to Apply</button>`;
+    }
+    // Clients post projects, they don't bid on them
+    if (storedUser.role !== 'freelancer') {
+        return `<button disabled title="Only freelancers can apply to projects" class="bg-surface-container text-outline px-6 py-3 rounded-xl font-label-md cursor-not-allowed">Client Account</button>`;
+    }
+    // Already applied
+    if (appliedProjectIds.has(String(p.id))) {
+        return `<button onclick="window.location.href='/projects/${p.id}'" class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-xl font-label-md">Applied — View Bid</button>`;
+    }
+    // Project no longer open
+    if (p.status && p.status !== 'open') {
+        return `<button disabled class="bg-surface-container text-outline px-6 py-3 rounded-xl font-label-md cursor-not-allowed">Bidding Closed</button>`;
+    }
+    return `<button onclick="applyToProject(${p.id})" class="bg-primary text-on-primary px-6 py-3 rounded-xl font-label-md shadow-sm hover:translate-y-[-2px] active:scale-95 transition-all">Apply Now</button>`;
+}
+
+function applyToProject(id) {
+    if (!token) { window.location.href = '/login'; return; }
+    window.location.href = `/projects/${id}`;
+}
+
+function clearFilters() {
+    document.querySelectorAll('.cat-checkbox').forEach(c => c.checked = false);
+    document.getElementById('budgetRange').value = 5000;
+    document.getElementById('budgetValue').textContent = '$5,000+';
+    document.getElementById('searchInput').value = '';
+    document.getElementById('sortSelect').value = 'newest';
+    currentPage = 1;
+    loadProjects();
+}
+
+function changePage(delta) {
+    const next = currentPage + delta;
+    if (next < 1 || next > totalPages) return;
+    currentPage = next;
+    loadProjects();
+}
+
+async function loadProjects() {
+    const grid = document.getElementById('projectsGrid');
+    grid.innerHTML = '<div class="glass-panel p-6 rounded-2xl text-secondary">Loading projects...</div>';
+
+    const categories = Array.from(document.querySelectorAll('.cat-checkbox:checked')).map(c => c.value);
+    const budgetMax = document.getElementById('budgetRange').value;
+    const keyword = document.getElementById('searchInput').value.trim();
+    const sort = document.getElementById('sortSelect').value;
+
+    const params = new URLSearchParams({ page: currentPage, per_page: 10, sort });
+    if (categories.length) params.set('category', categories.join(','));
+    if (budgetMax && budgetMax < 5000) params.set('budget_max', budgetMax);
+    if (keyword) params.set('keyword', keyword);
+
+    const headers = token ? { 'Authorization': 'Bearer ' + token } : {};
+    try {
+        const res = await fetch('/api/projects?' + params.toString(), { headers });
+        const result = await res.json();
+
+        if (!result.success) {
+            if (res.status === 401) {
+                grid.innerHTML = '<div class="glass-panel p-6 rounded-2xl text-secondary">Please <a href="/login" class="text-primary font-bold">log in</a> to browse open projects.</div>';
+                return;
+            }
+            grid.innerHTML = `<div class="glass-panel p-6 rounded-2xl text-error">${escapeHtml(result.message || 'Failed to load projects')}</div>`;
+            return;
+        }
+
+        const { projects, pagination } = result.data;
+        totalPages = pagination.total_pages || 1;
+        document.getElementById('pageInfo').textContent = `Page ${pagination.page} of ${totalPages}`;
+        document.getElementById('prevBtn').disabled = pagination.page <= 1;
+        document.getElementById('nextBtn').disabled = pagination.page >= totalPages;
+
+        grid.innerHTML = projects.length
+            ? projects.map(projectCard).join('')
+            : '<div class="glass-panel p-6 rounded-2xl text-secondary">No projects match these filters yet.</div>';
+    } catch (err) {
+        grid.innerHTML = '<div class="glass-panel p-6 rounded-2xl text-error">Could not reach the server.</div>';
+    }
+}
+
+document.getElementById('budgetRange').addEventListener('input', (e) => {
+    const v = e.target.value;
+    document.getElementById('budgetValue').textContent = v >= 5000 ? '$5,000+' : `$${v}`;
+});
+document.querySelectorAll('.cat-checkbox').forEach(c => c.addEventListener('change', () => { currentPage = 1; loadProjects(); }));
+document.getElementById('budgetRange').addEventListener('change', () => { currentPage = 1; loadProjects(); });
+document.getElementById('sortSelect').addEventListener('change', () => { currentPage = 1; loadProjects(); });
+document.getElementById('searchInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') { currentPage = 1; loadProjects(); }
+});
+
+// Preselect category from ?category= querystring (landing page category links)
+const urlParams = new URLSearchParams(window.location.search);
+const presetCategory = urlParams.get('category');
+if (presetCategory) {
+    document.querySelectorAll('.cat-checkbox').forEach(c => { if (c.value === presetCategory) c.checked = true; });
+}
+const presetKeyword = urlParams.get('keyword');
+if (presetKeyword) document.getElementById('searchInput').value = presetKeyword;
+
+loadAppliedProjectIds().then(loadProjects);
+</script>
+</body></html>

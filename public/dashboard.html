@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FreelanceHub | Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = { darkMode: "class", theme: { extend: {
+            "colors": {
+                "tertiary": "#005b7c","surface-bright": "#f7f9fb","on-primary-container": "#eeefff",
+                "surface-container-highest": "#e0e3e5","outline": "#737686","surface-container-low": "#f2f4f6",
+                "primary-container": "#2563eb","on-tertiary": "#ffffff","on-secondary-fixed-variant": "#3f465c",
+                "on-surface-variant": "#434655","inverse-surface": "#2d3133","primary": "#004ac6","on-surface": "#191c1e",
+                "error-container": "#ffdad6","on-error-container": "#93000a","inverse-on-surface": "#eff1f3",
+                "secondary-fixed-dim": "#bec6e0","on-secondary-container": "#5c647a","on-error": "#ffffff",
+                "on-background": "#191c1e","tertiary-fixed": "#c4e7ff","background": "#f7f9fb","secondary": "#565e74",
+                "surface-variant": "#e0e3e5","tertiary-container": "#00759f","outline-variant": "#c3c6d7",
+                "on-primary-fixed-variant": "#003ea8","surface": "#f7f9fb","error": "#ba1a1a","inverse-primary": "#b4c5ff",
+                "on-secondary-fixed": "#131b2e","on-tertiary-container": "#e1f2ff","surface-container": "#eceef0",
+                "on-tertiary-fixed-variant": "#004c69","secondary-container": "#dae2fd","secondary-fixed": "#dae2fd",
+                "surface-tint": "#0053db","primary-fixed-dim": "#b4c5ff","on-tertiary-fixed": "#001e2c",
+                "surface-dim": "#d8dadc","on-primary": "#ffffff","tertiary-fixed-dim": "#7bd0ff",
+                "surface-container-high": "#e6e8ea","on-secondary": "#ffffff","surface-container-lowest": "#ffffff",
+                "on-primary-fixed": "#00174b","primary-fixed": "#dbe1ff"
+            },
+            "borderRadius": {"DEFAULT": "0.25rem","lg": "0.5rem","xl": "0.75rem","full": "9999px"},
+            "spacing": {"stack-md": "16px","container-max": "1440px","gutter": "24px","stack-sm": "8px",
+                "margin-mobile": "16px","margin-desktop": "32px","stack-lg": "32px","sidebar-width": "280px"},
+            "fontFamily": {"body-lg": ["Inter"],"display": ["Inter"],"headline-md": ["Inter"],"headline-lg-mobile": ["Inter"],
+                "label-sm": ["Inter"],"headline-lg": ["Inter"],"body-md": ["Inter"],"label-md": ["Inter"]},
+            "fontSize": {
+                "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+        }}}
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<aside class="fixed left-0 top-0 h-full w-sidebar-width bg-surface-container-lowest border-r border-outline-variant/30 -translate-x-full md:translate-x-0 z-40 flex flex-col py-stack-lg" id="sidebar">
+<div class="px-gutter mb-stack-lg">
+<h1 class="text-headline-md font-headline-md font-black text-primary">FreelanceHub</h1>
+<p class="text-label-sm font-label-sm text-secondary" id="sidebarTag">Enterprise Suite</p>
+</div>
+<nav class="flex-1 space-y-1" id="sidebarNav">
+<a class="flex items-center px-gutter py-3 bg-primary-container text-on-primary-container rounded-full mx-2" href="/dashboard">
+<span class="material-symbols-outlined mr-3">dashboard</span><span class="text-label-md font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center px-gutter py-3 text-secondary hover:bg-surface-variant/50 rounded-full mx-2 transition-all" href="/find-work">
+<span class="material-symbols-outlined mr-3">work</span><span class="text-label-md font-label-md" id="navProjectsLabel">Projects</span>
+</a>
+<a class="hidden items-center px-gutter py-3 text-secondary hover:bg-surface-variant/50 rounded-full mx-2 transition-all" href="#myBids" id="navMyBids">
+<span class="material-symbols-outlined mr-3">gavel</span><span class="text-label-md font-label-md">My Bids</span>
+</a>
+</nav>
+<div class="px-4 mb-stack-lg">
+<button onclick="window.location.href='/projects/new'" id="sidebarPrimaryBtn" class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-95 transition-transform shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined">add</span> Post a Project
+</button>
+</div>
+<div class="border-t border-outline-variant/30 pt-stack-md space-y-1">
+<a class="flex items-center px-gutter py-3 text-secondary hover:bg-surface-variant/50 rounded-full mx-2 transition-all" href="#" onclick="logout()">
+<span class="material-symbols-outlined mr-3">logout</span><span class="text-label-md font-label-md">Sign Out</span>
+</a>
+</div>
+</aside>
+<main class="md:ml-sidebar-width min-h-screen">
+<header class="sticky top-0 z-30 bg-surface/70 backdrop-blur-md border-b border-outline-variant/30 flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<h2 class="text-headline-md font-headline-md font-bold text-on-surface" id="dashboardTitle">Dashboard</h2>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-3 border-l border-outline-variant/30 pl-6">
+<div class="text-right hidden lg:block">
+<p class="text-label-md font-label-md text-on-surface" id="userName">Loading...</p>
+<p class="text-label-sm font-label-sm text-secondary" id="userEmail"></p>
+</div>
+<div class="w-10 h-10 rounded-full border-2 border-primary-container bg-primary-container/30 flex items-center justify-center text-primary font-bold" id="userAvatar">?</div>
+</div>
+</div>
+</header>
+<div class="p-margin-mobile md:p-margin-desktop space-y-stack-lg max-w-container-max mx-auto">
+<section class="relative overflow-hidden rounded-3xl p-8 bg-primary-container text-on-primary-container shadow-xl">
+<div class="relative z-10">
+<h3 class="text-headline-lg font-headline-lg mb-2" id="welcomeHeadline">Welcome back!</h3>
+<p class="text-body-lg font-body-lg opacity-90 max-w-xl" id="welcomeSub">Here's what's happening today.</p>
+</div>
+<div class="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
+</section>
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter" id="statsGrid">
+<div class="glass-card p-6 rounded-2xl animate-pulse h-24"></div>
+<div class="glass-card p-6 rounded-2xl animate-pulse h-24"></div>
+<div class="glass-card p-6 rounded-2xl animate-pulse h-24"></div>
+<div class="glass-card p-6 rounded-2xl animate-pulse h-24"></div>
+</section>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-gutter items-start">
+<section class="lg:col-span-2 glass-card rounded-2xl overflow-hidden">
+<div class="px-6 py-5 border-b border-outline-variant/30 flex justify-between items-center bg-white/50">
+<h4 class="text-headline-md font-headline-md text-on-surface" id="activeProjectsHeading">Active Projects</h4>
+<a href="/find-work" class="text-primary text-label-md font-label-md hover:underline" id="activeProjectsLink">Browse Projects</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-secondary">
+<th class="px-6 py-4 font-label-md text-label-md">Project Name</th>
+<th class="px-6 py-4 font-label-md text-label-md">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md" id="partyColumnHeading">Freelancer</th>
+<th class="px-6 py-4 font-label-md text-label-md">Progress</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20" id="activeProjectsBody">
+<tr><td class="px-6 py-5 text-secondary" colspan="4">Loading projects...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+<aside class="space-y-gutter">
+<div class="glass-card rounded-2xl p-6">
+<h4 class="text-headline-md font-headline-md mb-4">Quick Actions</h4>
+<div class="grid grid-cols-1 gap-3" id="quickActions"></div>
+</div>
+<div class="glass-card rounded-2xl p-6">
+<h4 class="text-headline-md font-headline-md mb-4">Recent Activity</h4>
+<div class="space-y-6 relative before:absolute before:left-3 before:top-2 before:bottom-2 before:w-[1px] before:bg-outline-variant/30" id="activityFeed">
+<p class="text-secondary text-body-md">Loading activity...</p>
+</div>
+</div>
+</aside>
+</div>
+
+<!-- ============== FREELANCER-ONLY: MY BIDS ============== -->
+<section class="hidden glass-card rounded-2xl overflow-hidden" id="myBidsSection">
+<div class="px-6 py-5 border-b border-outline-variant/30 flex justify-between items-center bg-white/50" id="myBids">
+<h4 class="text-headline-md font-headline-md text-on-surface">My Bids</h4>
+<a href="/find-work" class="text-primary text-label-md font-label-md hover:underline">Find more work</a>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="bg-surface-container-low text-secondary">
+<th class="px-6 py-4 font-label-md text-label-md">Project</th>
+<th class="px-6 py-4 font-label-md text-label-md">Your Price</th>
+<th class="px-6 py-4 font-label-md text-label-md">Timeline</th>
+<th class="px-6 py-4 font-label-md text-label-md">Status</th>
+<th class="px-6 py-4 font-label-md text-label-md">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant/20" id="myBidsBody">
+<tr><td class="px-6 py-5 text-secondary" colspan="5">Loading bids...</td></tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- ============== FREELANCER-ONLY: BID ESTIMATOR ============== -->
+<section class="hidden glass-card rounded-2xl p-6" id="estimatorSection">
+<div class="flex items-center gap-3 mb-1">
+<span class="material-symbols-outlined text-primary">calculate</span>
+<h4 class="text-headline-md font-headline-md text-on-surface" id="estimator">Bid Estimator</h4>
+</div>
+<p class="text-body-md text-secondary mb-6">Rough out a price and timeline before you submit a proposal. This is a planning tool only — it doesn't submit anything.</p>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+<div>
+<label class="text-label-sm font-bold text-secondary block mb-1.5">Estimated hours</label>
+<input id="estHours" type="number" min="0" step="1" placeholder="e.g. 40" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/40 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="text-label-sm font-bold text-secondary block mb-1.5">Your hourly rate ($)</label>
+<input id="estRate" type="number" min="0" step="1" placeholder="e.g. 25" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/40 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<div>
+<label class="text-label-sm font-bold text-secondary block mb-1.5">Hours per working day</label>
+<input id="estHoursPerDay" type="number" min="1" step="1" value="6" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant/40 rounded-xl text-body-md focus:outline-none focus:ring-2 focus:ring-primary"/>
+</div>
+<button onclick="runEstimate()" class="py-3 bg-primary text-on-primary rounded-xl font-bold hover:scale-[1.02] active:scale-95 transition-transform">Calculate</button>
+</div>
+<div id="estimatorResult" class="hidden mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="p-5 rounded-xl bg-primary/5 border border-primary/20">
+<p class="text-label-sm text-secondary mb-1">Suggested bid price</p>
+<p class="text-headline-lg font-headline-lg text-primary" id="estPriceOut">$0</p>
+</div>
+<div class="p-5 rounded-xl bg-primary/5 border border-primary/20">
+<p class="text-label-sm text-secondary mb-1">Suggested timeline</p>
+<p class="text-headline-lg font-headline-lg text-primary" id="estDaysOut">0 days</p>
+</div>
+</div>
+</section>
+</div>
+</main>
+<script>
+const token = localStorage.getItem('access_token');
+if (!token) window.location.href = '/login';
+
+let storedUser = JSON.parse(localStorage.getItem('user') || 'null');
+
+function logout() {
+    localStorage.clear();
+    window.location.href = '/login';
+}
+
+async function api(path) {
+    const res = await fetch(path, {
+        headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const result = await res.json();
+    if (!result.success && res.status === 401) {
+        localStorage.clear();
+        window.location.href = '/login';
+        throw new Error('Unauthorized');
+    }
+    return result;
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
+function statCard(label, value, icon) {
+    return `
+    <div class="glass-card p-6 rounded-2xl flex flex-col justify-between hover:scale-[1.02] transition-transform">
+        <span class="text-secondary text-label-md font-label-md mb-2">${label}</span>
+        <div class="flex items-end justify-between">
+            <span class="text-headline-lg font-headline-lg font-bold">${value}</span>
+            <div class="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center text-primary">
+                <span class="material-symbols-outlined">${icon}</span>
+            </div>
+        </div>
+    </div>`;
+}
+
+function quickAction(icon, label, onclick) {
+    return `
+    <button onclick="${onclick}" class="flex items-center justify-between p-4 rounded-xl bg-surface-container hover:bg-primary/5 transition-colors text-on-surface border border-transparent hover:border-primary/20 group">
+        <div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary">${icon}</span><span class="text-label-md font-label-md">${label}</span></div>
+        <span class="material-symbols-outlined text-outline">chevron_right</span>
+    </button>`;
+}
+
+function activeProjectRow(p, otherPartyKey) {
+    const otherName = p[otherPartyKey];
+    const initials = (otherName || '').split(' ').map(w => w[0]).slice(0,2).join('').toUpperCase() || '—';
+    const otherCell = otherName
+        ? `<div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full bg-secondary-fixed text-[10px] flex items-center justify-center">${initials}</div><span class="text-body-md">${escapeHtml(otherName)}</span></div>`
+        : `<span class="text-secondary-fixed-dim text-label-md italic">Searching...</span>`;
+    return `
+    <tr class="hover:bg-surface-variant/20 transition-colors cursor-pointer" onclick="window.location.href='/projects/${p.id}'">
+        <td class="px-6 py-5"><p class="text-body-md font-bold text-on-surface">${escapeHtml(p.title)}</p></td>
+        <td class="px-6 py-5"><span class="px-3 py-1 rounded-full text-[12px] font-bold bg-primary-container/10 text-primary uppercase">${p.status.replace('_',' ')}</span></td>
+        <td class="px-6 py-5">${otherCell}</td>
+        <td class="px-6 py-5">
+            <div class="w-full bg-surface-container-highest rounded-full h-2 overflow-hidden">
+                <div class="bg-primary h-full rounded-full" style="width: ${p.progress}%"></div>
+            </div>
+        </td>
+    </tr>`;
+}
+
+const activityIcon = { bid: 'campaign', payment: 'paid', message: 'chat', bid_status: 'gavel' };
+function activityItem(a) {
+    return `
+    <div class="relative pl-8">
+        <div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-primary-container text-white flex items-center justify-center z-10">
+            <span class="material-symbols-outlined text-[14px]">${activityIcon[a.type] || 'notifications'}</span>
+        </div>
+        <p class="text-body-md font-bold">${escapeHtml(a.title)}</p>
+        <p class="text-label-sm font-label-sm text-secondary mb-1">${escapeHtml(a.subtitle || '')}</p>
+        <p class="text-[12px] text-outline">${a.timestamp ? new Date(a.timestamp).toLocaleString() : ''}</p>
+    </div>`;
+}
+
+// ---------------------------------------------------------------
+// ROLE-SPECIFIC CHROME (sidebar, header, quick actions)
+// ---------------------------------------------------------------
+function applyChrome(role) {
+    const isFreelancer = role === 'freelancer';
+
+    document.title = isFreelancer ? 'FreelanceHub | Freelancer Dashboard' : 'FreelanceHub | Client Dashboard';
+    document.getElementById('dashboardTitle').textContent = isFreelancer ? 'Freelancer Dashboard' : 'Client Dashboard';
+    document.getElementById('sidebarTag').textContent = isFreelancer ? 'Freelancer Workspace' : 'Enterprise Suite';
+    document.getElementById('navProjectsLabel').textContent = isFreelancer ? 'Find Work' : 'Browse Projects';
+    document.getElementById('activeProjectsHeading').textContent = isFreelancer ? 'My Active Projects' : 'Active Projects';
+    document.getElementById('activeProjectsLink').textContent = isFreelancer ? 'Find more work' : 'Browse marketplace';
+    document.getElementById('partyColumnHeading').textContent = isFreelancer ? 'Client' : 'Freelancer';
+
+    const sidebarBtn = document.getElementById('sidebarPrimaryBtn');
+    const quickActions = document.getElementById('quickActions');
+
+    if (isFreelancer) {
+        document.getElementById('navMyBids').classList.remove('hidden');
+        document.getElementById('navMyBids').classList.add('flex');
+        document.getElementById('myBidsSection').classList.remove('hidden');
+        document.getElementById('estimatorSection').classList.remove('hidden');
+
+        sidebarBtn.innerHTML = '<span class="material-symbols-outlined">search</span> Find Work';
+        sidebarBtn.onclick = () => window.location.href = '/find-work';
+
+        quickActions.innerHTML =
+            quickAction('search', 'Browse Projects', "window.location.href='/find-work'") +
+            quickAction('gavel', 'View My Bids', "document.getElementById('myBids').scrollIntoView({behavior:'smooth'})") +
+            quickAction('calculate', 'Bid Estimator', "document.getElementById('estimator').scrollIntoView({behavior:'smooth'})");
+    } else {
+        sidebarBtn.innerHTML = '<span class="material-symbols-outlined">add</span> Post a Project';
+        sidebarBtn.onclick = () => window.location.href = '/projects/new';
+
+        quickActions.innerHTML =
+            quickAction('add_task', 'Post a Project', "window.location.href='/projects/new'") +
+            quickAction('list_alt', 'View My Projects', "document.getElementById('activeProjectsHeading').scrollIntoView({behavior:'smooth'})");
+    }
+}
+
+// ---------------------------------------------------------------
+// CLIENT DASHBOARD
+// ---------------------------------------------------------------
+function renderClientDashboard(data) {
+    const { stats, active_projects, recent_activity } = data;
+
+    document.getElementById('welcomeSub').textContent =
+        `You have ${stats.active} active project${stats.active === 1 ? '' : 's'} that ${stats.active === 1 ? 'requires' : 'require'} attention today.`;
+
+    document.getElementById('statsGrid').innerHTML =
+        statCard('Total Projects', stats.total_projects, 'folder') +
+        statCard('Active', stats.active, 'bolt') +
+        statCard('Completed', stats.completed, 'check_circle') +
+        statCard('Bids Received', stats.bids_received, 'campaign');
+
+    document.getElementById('activeProjectsBody').innerHTML = active_projects.length
+        ? active_projects.map(p => activeProjectRow(p, 'freelancer_name')).join('')
+        : '<tr><td class="px-6 py-5 text-secondary" colspan="4">No active projects yet — post one to get started.</td></tr>';
+
+    document.getElementById('activityFeed').innerHTML = recent_activity.length
+        ? recent_activity.map(activityItem).join('')
+        : '<p class="text-secondary text-body-md">No recent activity yet.</p>';
+}
+
+// ---------------------------------------------------------------
+// FREELANCER DASHBOARD
+// ---------------------------------------------------------------
+function renderFreelancerDashboard(data) {
+    const { stats, active_projects, recent_activity } = data;
+
+    document.getElementById('welcomeSub').textContent =
+        `You have ${stats.pending_bids} pending bid${stats.pending_bids === 1 ? '' : 's'} and ${stats.active_projects} active project${stats.active_projects === 1 ? '' : 's'} right now.`;
+
+    document.getElementById('statsGrid').innerHTML =
+        statCard('Total Bids', stats.total_bids, 'gavel') +
+        statCard('Active Projects', stats.active_projects, 'bolt') +
+        statCard('Completed', stats.completed_projects, 'check_circle') +
+        statCard('Pending Bids', stats.pending_bids, 'hourglass_top');
+
+    document.getElementById('activeProjectsBody').innerHTML = active_projects.length
+        ? active_projects.map(p => activeProjectRow(p, 'client_name')).join('')
+        : '<tr><td class="px-6 py-5 text-secondary" colspan="4">No active projects yet — browse open work to place your first bid.</td></tr>';
+
+    document.getElementById('activityFeed').innerHTML = recent_activity.length
+        ? recent_activity.map(activityItem).join('')
+        : '<p class="text-secondary text-body-md">No recent activity yet.</p>';
+}
+
+const bidStatusClasses = { pending: 'bg-amber-100 text-amber-800', accepted: 'bg-green-100 text-green-800', rejected: 'bg-red-100 text-red-800', withdrawn: 'bg-gray-100 text-gray-600' };
+function myBidRow(b) {
+    const canWithdraw = b.status === 'pending';
+    return `
+    <tr class="hover:bg-surface-variant/20 transition-colors">
+        <td class="px-6 py-5"><a href="/projects/${b.project_id}" class="text-body-md font-bold text-on-surface hover:text-primary">${escapeHtml(b.project_title || ('Project #' + b.project_id))}</a></td>
+        <td class="px-6 py-5 text-body-md">$${b.price}</td>
+        <td class="px-6 py-5 text-body-md">${b.estimated_days} day${b.estimated_days === 1 ? '' : 's'}</td>
+        <td class="px-6 py-5"><span class="px-3 py-1 rounded-full text-[12px] font-bold uppercase ${bidStatusClasses[b.status] || 'bg-gray-100 text-gray-600'}">${b.status}</span></td>
+        <td class="px-6 py-5">${canWithdraw ? `<button class="withdraw-btn text-error text-label-sm font-bold hover:underline" data-id="${b.id}">Withdraw</button>` : '<span class="text-outline text-label-sm">—</span>'}</td>
+    </tr>`;
+}
+
+async function loadMyBids() {
+    const result = await api('/api/bids/mine?per_page=50');
+    const body = document.getElementById('myBidsBody');
+    if (!result.success) {
+        body.innerHTML = '<tr><td class="px-6 py-5 text-error" colspan="5">Could not load your bids.</td></tr>';
+        return;
+    }
+    const bids = result.data.bids || [];
+    body.innerHTML = bids.length
+        ? bids.map(myBidRow).join('')
+        : '<tr><td class="px-6 py-5 text-secondary" colspan="5">You have not placed any bids yet — <a href="/find-work" class="text-primary font-bold hover:underline">browse open projects</a>.</td></tr>';
+
+    document.querySelectorAll('.withdraw-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+            if (!confirm('Withdraw this bid?')) return;
+            const res = await fetch(`/api/bids/${btn.dataset.id}/withdraw`, {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token }
+            });
+            const json = await res.json();
+            if (!json.success) { alert(json.message || 'Could not withdraw bid.'); return; }
+            loadMyBids();
+            loadDashboard();
+        });
+    });
+}
+
+function runEstimate() {
+    const hours = parseFloat(document.getElementById('estHours').value) || 0;
+    const rate = parseFloat(document.getElementById('estRate').value) || 0;
+    const perDay = parseFloat(document.getElementById('estHoursPerDay').value) || 6;
+    const price = hours * rate;
+    const days = perDay > 0 ? Math.max(1, Math.ceil(hours / perDay)) : 0;
+    document.getElementById('estPriceOut').textContent = '$' + price.toFixed(2);
+    document.getElementById('estDaysOut').textContent = days + (days === 1 ? ' day' : ' days');
+    document.getElementById('estimatorResult').classList.remove('hidden');
+}
+
+async function prefillEstimatorRate() {
+    try {
+        const result = await api('/api/profile/me');
+        if (result.success && result.data.user.profile && result.data.user.profile.hourly_rate) {
+            document.getElementById('estRate').value = result.data.user.profile.hourly_rate;
+        }
+    } catch (e) { /* profile is optional here, ignore failures */ }
+}
+
+async function loadDashboard() {
+    const result = await api('/api/dashboard');
+    if (!result.success) return;
+
+    if (storedUser.role === 'freelancer') {
+        renderFreelancerDashboard(result.data);
+    } else {
+        renderClientDashboard(result.data);
+    }
+}
+
+async function init() {
+    if (!storedUser) {
+        const me = await api('/api/auth/me');
+        if (!me.success) return;
+        storedUser = me.data.user;
+        localStorage.setItem('user', JSON.stringify(storedUser));
+    }
+
+    document.getElementById('userName').textContent = storedUser.name;
+    document.getElementById('userEmail').textContent = storedUser.email;
+    document.getElementById('userAvatar').textContent = (storedUser.name || '?').charAt(0).toUpperCase();
+    document.getElementById('welcomeHeadline').textContent = `Welcome back, ${storedUser.name.split(' ')[0]}!`;
+
+    applyChrome(storedUser.role);
+    await loadDashboard();
+
+    if (storedUser.role === 'freelancer') {
+        loadMyBids();
+        prefillEstimatorRate();
+    }
+}
+
+init().catch(err => console.error(err));
+</script>
+</body></html>

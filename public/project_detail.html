@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Project Details | FreelanceHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#005b7c", "surface-bright": "#f7f9fb", "on-primary-container": "#eeefff",
+                    "surface-container-highest": "#e0e3e5", "outline": "#737686", "surface-container-low": "#f2f4f6",
+                    "primary-container": "#2563eb", "on-tertiary": "#ffffff", "on-secondary-fixed-variant": "#3f465c",
+                    "on-surface-variant": "#434655", "inverse-surface": "#2d3133", "primary": "#004ac6",
+                    "on-surface": "#191c1e", "error-container": "#ffdad6", "on-error-container": "#93000a",
+                    "inverse-on-surface": "#eff1f3", "secondary-fixed-dim": "#bec6e0", "on-secondary-container": "#5c647a",
+                    "on-error": "#ffffff", "on-background": "#191c1e", "tertiary-fixed": "#c4e7ff",
+                    "background": "#f7f9fb", "secondary": "#565e74", "surface-variant": "#e0e3e5",
+                    "tertiary-container": "#00759f", "outline-variant": "#c3c6d7", "on-primary-fixed-variant": "#003ea8",
+                    "surface": "#f7f9fb", "error": "#ba1a1a", "inverse-primary": "#b4c5ff",
+                    "on-secondary-fixed": "#131b2e", "on-tertiary-container": "#e1f2ff", "surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#004c69", "secondary-container": "#dae2fd", "secondary-fixed": "#dae2fd",
+                    "surface-tint": "#0053db", "primary-fixed-dim": "#b4c5ff", "on-tertiary-fixed": "#001e2c",
+                    "surface-dim": "#d8dadc", "on-primary": "#ffffff", "tertiary-fixed-dim": "#7bd0ff",
+                    "surface-container-high": "#e6e8ea", "on-secondary": "#ffffff", "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#00174b", "primary-fixed": "#dbe1ff"
+            },
+            "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+            "spacing": {
+                    "stack-md": "16px", "container-max": "1440px", "gutter": "24px", "stack-sm": "8px",
+                    "margin-mobile": "16px", "margin-desktop": "32px", "stack-lg": "32px", "sidebar-width": "280px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"], "display": ["Inter"], "headline-md": ["Inter"], "headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"], "headline-lg": ["Inter"], "body-md": ["Inter"], "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+    body { font-family: 'Inter', sans-serif; background: #f7f9fb; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .card { background: #fff; border-radius: 0.75rem; border: 1px solid #f1f1f3; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .input { width:100%; padding: 0.75rem 1rem; background:#f2f4f6; border:1px solid rgba(195,198,215,0.4); border-radius:0.5rem; font-size:14px; outline:none; }
+    .input:focus { border-color:#004ac6; box-shadow:0 0 0 2px rgba(0,74,198,0.15); }
+    .status-badge{display:inline-block;padding:0.25rem 0.75rem;border-radius:9999px;font-size:12px;font-weight:600;text-transform:capitalize;letter-spacing:0.01em;}
+    .status-open{background:#dbe1ff;color:#004ac6;}
+    .status-in_progress{background:#fef3c7;color:#92400e;}
+    .status-completed{background:#dcfce7;color:#166534;}
+    .status-cancelled{background:#f3f4f6;color:#6b7280;}
+    .status-pending{background:#fef3c7;color:#92400e;}
+    .status-accepted{background:#dcfce7;color:#166534;}
+    .status-rejected{background:#fee2e2;color:#991b1b;}
+    .status-withdrawn{background:#f3f4f6;color:#6b7280;}
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="bg-white border-b border-gray-100 sticky top-0 z-20">
+  <div class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="flex items-center gap-8">
+      <a href="/dashboard" class="text-xl font-bold text-primary">FreelanceHub</a>
+      <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-on-surface-variant">
+        <a href="/dashboard" class="hover:text-primary">Dashboard</a>
+      </nav>
+    </div>
+    <div class="flex items-center gap-4">
+      <span id="userName" class="text-sm text-on-surface-variant hidden sm:inline"></span>
+      <button id="logoutBtn" class="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100">Log Out</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-6 py-8">
+  <a href="/dashboard" class="text-sm text-primary font-medium mb-4 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_back</span> Back to Dashboard</a>
+
+  <div id="loading" class="text-sm text-on-surface-variant mt-4">Loading project...</div>
+  <div id="errorBox" class="hidden mb-4 px-4 py-3 rounded-lg bg-error-container text-on-error-container text-sm"></div>
+
+  <div id="content" class="hidden">
+    <!-- Project header -->
+    <div class="card p-6 mb-6">
+      <div class="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <div class="flex items-center gap-3 mb-2">
+            <h1 class="text-2xl font-bold text-on-surface" id="pTitle"></h1>
+            <span class="status-badge" id="pStatus"></span>
+          </div>
+          <p class="text-on-surface-variant text-sm" id="pDescription"></p>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-sm text-on-surface-variant">
+        <span id="pBudget"></span>
+        <span id="pCategory"></span>
+        <span id="pDeadline"></span>
+        <span id="pBidCount"></span>
+      </div>
+
+      <!-- Status action buttons (client owner only) -->
+      <div class="flex flex-wrap gap-3 mt-5 pt-5 border-t border-gray-100" id="statusActions"></div>
+    </div>
+
+    <!-- ============ CLIENT VIEW: bids received ============ -->
+    <div class="card p-6 hidden" id="clientBidsCard">
+      <h2 class="text-lg font-bold text-on-surface mb-4">Bids</h2>
+      <div id="noBids" class="hidden text-sm text-on-surface-variant">No bids yet on this project.</div>
+      <div id="bidList" class="space-y-4"></div>
+    </div>
+
+    <!-- ============ FREELANCER VIEW: your bid / submit a bid ============ -->
+    <div class="card p-6 hidden" id="freelancerBidCard">
+      <h2 class="text-lg font-bold text-on-surface mb-1">Your Bid</h2>
+      <p class="text-sm text-on-surface-variant mb-5" id="freelancerBidSubtext"></p>
+
+      <!-- Existing bid summary -->
+      <div id="existingBidBox" class="hidden border border-gray-100 rounded-lg p-4 mb-4">
+        <div class="flex justify-between items-start gap-4 flex-wrap">
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <span class="status-badge" id="myBidStatus"></span>
+            </div>
+            <p class="text-sm text-on-surface-variant mb-2" id="myBidProposal"></p>
+            <div class="flex gap-4 text-xs text-on-surface-variant">
+              <span id="myBidPrice"></span>
+              <span id="myBidDays"></span>
+            </div>
+          </div>
+          <div class="flex gap-2 shrink-0" id="myBidActions"></div>
+        </div>
+      </div>
+
+      <!-- Bid estimator (quick helper before filling out the form) -->
+      <div id="bidEstimator" class="hidden bg-surface-container-low rounded-lg p-4 mb-5">
+        <p class="text-xs font-bold text-secondary mb-3 flex items-center gap-1"><span class="material-symbols-outlined text-base">calculate</span> Quick estimate (optional)</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <input id="estHours" type="number" min="0" step="1" placeholder="Est. hours" class="input"/>
+          <input id="estRate" type="number" min="0" step="1" placeholder="Your hourly rate ($)" class="input"/>
+          <button type="button" onclick="applyEstimate()" class="px-4 py-2 rounded-lg border border-primary text-primary text-sm font-semibold hover:bg-primary/5">Fill price &amp; timeline</button>
+        </div>
+      </div>
+
+      <!-- Bid submission / edit form -->
+      <form id="bidForm" class="hidden space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="text-xs font-semibold text-secondary block mb-1.5">Your price (USD)</label>
+            <input class="input" id="bidPrice" type="number" min="0" step="0.01" required/>
+          </div>
+          <div>
+            <label class="text-xs font-semibold text-secondary block mb-1.5">Estimated days</label>
+            <input class="input" id="bidDays" type="number" min="1" step="1" required/>
+          </div>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-secondary block mb-1.5">Proposal <span class="font-normal text-on-surface-variant">(min 20 characters)</span></label>
+          <textarea class="input" id="bidProposal" rows="4" minlength="20" required placeholder="Explain your approach, relevant experience, and why you're a good fit..."></textarea>
+        </div>
+        <div class="hidden mb-2 px-4 py-3 rounded-lg bg-error-container text-on-error-container text-sm" id="bidErrorBox"></div>
+        <div class="flex gap-3">
+          <button class="px-6 py-3 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-container transition-colors" id="bidSubmitBtn" type="submit">Submit Bid</button>
+          <button class="hidden px-6 py-3 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100" id="bidCancelEditBtn" type="button">Cancel</button>
+        </div>
+      </form>
+
+      <div id="bidClosedNotice" class="hidden text-sm text-on-surface-variant bg-surface-container-low rounded-lg p-4"></div>
+    </div>
+  </div>
+</main>
+
+<script>
+const token = localStorage.getItem('access_token');
+if (!token) window.location.href = '/login';
+
+const pathParts = window.location.pathname.split('/').filter(Boolean);
+const projectId = pathParts[1];
+
+let currentProject = null;
+let currentUser = null;
+let myBid = null; // this freelancer's existing bid on this project, if any
+
+async function api(path, options = {}) {
+    const res = await fetch(path, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            ...(options.headers || {})
+        }
+    });
+    const result = await res.json();
+    if (!result.success && res.status === 401) {
+        localStorage.clear();
+        window.location.href = '/login';
+        throw new Error('Unauthorized');
+    }
+    return { ok: result.success, status: res.status, result };
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
+}
+
+function formatBudget(p) {
+    if (p.budget_min == null && p.budget_max == null) return 'Budget not specified';
+    if (p.budget_min != null && p.budget_max != null) return `$${p.budget_min} - $${p.budget_max}`;
+    return `$${p.budget_min ?? p.budget_max}`;
+}
+
+async function loadUser() {
+    const { ok, result } = await api('/api/auth/me');
+    if (!ok) return;
+    currentUser = result.data.user;
+    document.getElementById('userName').textContent = currentUser.name + ' (' + currentUser.role + ')';
+}
+
+function renderStatusActions() {
+    const el = document.getElementById('statusActions');
+    el.innerHTML = '';
+
+    const isOwnerClient = currentUser && currentUser.role === 'client' && currentProject.client_id === currentUser.id;
+    const isAcceptedFreelancer = currentUser && currentUser.role === 'freelancer'
+        && currentProject.accepted_bid_id != null
+        && myBid && myBid.id === currentProject.accepted_bid_id;
+
+    if (!isOwnerClient && !isAcceptedFreelancer) return;
+
+    const status = currentProject.status;
+    const buttons = [];
+
+    if (isAcceptedFreelancer) {
+        if (status === 'in_progress' || status === 'completed') {
+            buttons.push(`<a href="/messages/${projectId}" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">chat</span> Messages</a>`);
+        }
+        if (status === 'in_progress') {
+            buttons.push(`<button class="status-transition-btn px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100" data-status="cancelled">Cancel Project</button>`);
+        }
+        el.innerHTML = buttons.join('');
+        document.querySelectorAll('.status-transition-btn').forEach(btn => {
+            btn.addEventListener('click', () => updateStatus(btn.dataset.status));
+        });
+        return;
+    }
+
+    if (status === 'in_progress') {
+        buttons.push(`<button class="status-transition-btn px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-container" data-status="completed" ${currentProject.accepted_bid_id ? '' : 'disabled title="Needs an accepted bid"'}>Mark Completed</button>`);
+        buttons.push(`<button class="status-transition-btn px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100" data-status="cancelled">Cancel Project</button>`);
+        buttons.push(`<a href="/messages/${projectId}" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">chat</span> Messages</a>`);
+        buttons.push(`<a href="/payments/${projectId}" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">payments</span> Payment</a>`);
+    } else if (status === 'open') {
+        buttons.push(`<button class="status-transition-btn px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100" data-status="cancelled">Cancel Project</button>`);
+    } else if (status === 'completed') {
+        buttons.push(`<a href="/messages/${projectId}" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">chat</span> Messages</a>`);
+        buttons.push(`<a href="/payments/${projectId}" class="px-4 py-2 border border-gray-300 rounded-lg text-sm font-semibold hover:bg-gray-100 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">payments</span> Payment</a>`);
+        buttons.push(`<a href="/projects/${projectId}/review" class="px-4 py-2 bg-primary text-white rounded-lg text-sm font-semibold hover:bg-primary-container inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">star</span> Leave a Review</a>`);
+    }
+
+    el.innerHTML = buttons.join('');
+    document.querySelectorAll('.status-transition-btn').forEach(btn => {
+        btn.addEventListener('click', () => updateStatus(btn.dataset.status));
+    });
+}
+
+async function updateStatus(status) {
+    if (status === 'cancelled' && !confirm('Cancel this project? This cannot be undone.')) return;
+    const { ok, result } = await api(`/api/projects/${projectId}/status`, {
+        method: 'PATCH',
+        body: JSON.stringify({ status })
+    });
+    if (!ok) {
+        alert(result.message || 'Could not update status.');
+        return;
+    }
+    await loadProject();
+}
+
+// ---------------------------------------------------------------
+// CLIENT-SIDE: bids received on my project
+// ---------------------------------------------------------------
+function bidCard(b) {
+    const isPending = b.status === 'pending';
+    const isOwnerClient = currentUser && currentUser.role === 'client' && currentProject.client_id === currentUser.id;
+    return `
+    <div class="border border-gray-100 rounded-lg p-4">
+      <div class="flex justify-between items-start gap-4 flex-wrap">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="font-semibold text-on-surface">${escapeHtml(b.freelancer_name || 'Freelancer #' + b.freelancer_id)}</span>
+            <span class="status-badge status-${b.status}">${b.status}</span>
+          </div>
+          <p class="text-sm text-on-surface-variant mb-2">${escapeHtml(b.proposal)}</p>
+          <div class="flex gap-4 text-xs text-on-surface-variant">
+            <span>$${b.price}</span>
+            <span>${b.estimated_days} day${b.estimated_days === 1 ? '' : 's'}</span>
+          </div>
+        </div>
+        ${isPending && currentProject.status === 'open' && isOwnerClient ? `
+        <div class="flex gap-2 shrink-0">
+          <button class="accept-btn px-3 py-1.5 bg-primary text-white rounded-lg text-xs font-semibold hover:bg-primary-container" data-id="${b.id}">Accept</button>
+          <button class="reject-btn px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-100" data-id="${b.id}">Reject</button>
+        </div>` : ''}
+      </div>
+    </div>`;
+}
+
+function renderClientBidsSection() {
+    const bids = currentProject.bids || [];
+    document.getElementById('clientBidsCard').classList.remove('hidden');
+    const bidListEl = document.getElementById('bidList');
+    if (bids.length === 0) {
+        bidListEl.innerHTML = '';
+        document.getElementById('noBids').classList.remove('hidden');
+    } else {
+        document.getElementById('noBids').classList.add('hidden');
+        bidListEl.innerHTML = bids.map(bidCard).join('');
+        document.querySelectorAll('.accept-btn').forEach(btn => {
+            btn.addEventListener('click', () => acceptBid(btn.dataset.id));
+        });
+        document.querySelectorAll('.reject-btn').forEach(btn => {
+            btn.addEventListener('click', () => rejectBid(btn.dataset.id));
+        });
+    }
+}
+
+async function acceptBid(bidId) {
+    if (!confirm('Accept this bid? All other pending bids will be automatically rejected and the project will move to In Progress.')) return;
+    const { ok, result } = await api(`/api/bids/${bidId}/accept`, { method: 'POST' });
+    if (!ok) {
+        alert(result.message || 'Could not accept bid.');
+        return;
+    }
+    await loadProject();
+}
+
+async function rejectBid(bidId) {
+    if (!confirm('Reject this bid?')) return;
+    const { ok, result } = await api(`/api/bids/${bidId}/reject`, { method: 'POST' });
+    if (!ok) {
+        alert(result.message || 'Could not reject bid.');
+        return;
+    }
+    await loadProject();
+}
+
+// ---------------------------------------------------------------
+// FREELANCER-SIDE: submit / view / edit / withdraw my own bid
+// ---------------------------------------------------------------
+async function findMyBid() {
+    const { ok, result } = await api('/api/bids/mine?per_page=100');
+    if (!ok) return null;
+    return (result.data.bids || []).find(b => String(b.project_id) === String(projectId)) || null;
+}
+
+function applyEstimate() {
+    const hours = parseFloat(document.getElementById('estHours').value) || 0;
+    const rate = parseFloat(document.getElementById('estRate').value) || 0;
+    if (hours > 0 && rate > 0) {
+        document.getElementById('bidPrice').value = (hours * rate).toFixed(2);
+    }
+    if (hours > 0) {
+        document.getElementById('bidDays').value = Math.max(1, Math.ceil(hours / 6));
+    }
+}
+
+function renderMyBidBox() {
+    const box = document.getElementById('existingBidBox');
+    if (!myBid) { box.classList.add('hidden'); return; }
+
+    box.classList.remove('hidden');
+    document.getElementById('myBidStatus').textContent = myBid.status;
+    document.getElementById('myBidStatus').className = 'status-badge status-' + myBid.status;
+    document.getElementById('myBidProposal').textContent = myBid.proposal;
+    document.getElementById('myBidPrice').textContent = '$' + myBid.price;
+    document.getElementById('myBidDays').textContent = myBid.estimated_days + ' day' + (myBid.estimated_days === 1 ? '' : 's');
+
+    const actions = document.getElementById('myBidActions');
+    actions.innerHTML = '';
+    if (myBid.status === 'pending' && currentProject.status === 'open') {
+        actions.innerHTML = `
+            <button id="editBidBtn" class="px-3 py-1.5 border border-gray-300 rounded-lg text-xs font-semibold hover:bg-gray-100">Edit</button>
+            <button id="withdrawBidBtn" class="px-3 py-1.5 border border-error text-error rounded-lg text-xs font-semibold hover:bg-error-container">Withdraw</button>`;
+        document.getElementById('editBidBtn').addEventListener('click', () => showBidForm(true));
+        document.getElementById('withdrawBidBtn').addEventListener('click', withdrawMyBid);
+    }
+}
+
+function showBidForm(isEdit) {
+    document.getElementById('bidEstimator').classList.remove('hidden');
+    const form = document.getElementById('bidForm');
+    form.classList.remove('hidden');
+    document.getElementById('bidCancelEditBtn').classList.toggle('hidden', !isEdit);
+    document.getElementById('bidSubmitBtn').textContent = isEdit ? 'Save Changes' : 'Submit Bid';
+    form.dataset.mode = isEdit ? 'edit' : 'create';
+
+    if (isEdit && myBid) {
+        document.getElementById('bidPrice').value = myBid.price;
+        document.getElementById('bidDays').value = myBid.estimated_days;
+        document.getElementById('bidProposal').value = myBid.proposal;
+    } else {
+        form.reset();
+    }
+}
+
+async function withdrawMyBid() {
+    if (!confirm('Withdraw your bid on this project?')) return;
+    const { ok, result } = await api(`/api/bids/${myBid.id}/withdraw`, { method: 'POST' });
+    if (!ok) { alert(result.message || 'Could not withdraw bid.'); return; }
+    await refreshFreelancerBidArea();
+}
+
+async function refreshFreelancerBidArea() {
+    myBid = await findMyBid();
+    const subtext = document.getElementById('freelancerBidSubtext');
+    const estimator = document.getElementById('bidEstimator');
+    const form = document.getElementById('bidForm');
+    const closedNotice = document.getElementById('bidClosedNotice');
+
+    renderMyBidBox();
+
+    const projectIsOpen = currentProject.status === 'open';
+
+    if (myBid) {
+        // Has a bid already — only show the create form if editing is triggered
+        estimator.classList.add('hidden');
+        form.classList.add('hidden');
+        closedNotice.classList.add('hidden');
+        subtext.textContent = projectIsOpen
+            ? "You've already placed a bid on this project."
+            : 'This project is no longer accepting new bids.';
+    } else if (projectIsOpen) {
+        subtext.textContent = "Haven't applied yet? Submit your proposal below.";
+        closedNotice.classList.add('hidden');
+        showBidForm(false);
+    } else {
+        subtext.textContent = '';
+        estimator.classList.add('hidden');
+        form.classList.add('hidden');
+        closedNotice.classList.remove('hidden');
+        closedNotice.textContent = 'This project is no longer open for bidding.';
+    }
+}
+
+document.getElementById('bidCancelEditBtn').addEventListener('click', () => {
+    if (myBid) {
+        document.getElementById('bidEstimator').classList.add('hidden');
+        document.getElementById('bidForm').classList.add('hidden');
+    }
+});
+
+document.getElementById('bidForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errBox = document.getElementById('bidErrorBox');
+    errBox.classList.add('hidden');
+    const btn = document.getElementById('bidSubmitBtn');
+    const mode = e.target.dataset.mode || 'create';
+    btn.disabled = true;
+
+    const payload = {
+        price: parseFloat(document.getElementById('bidPrice').value),
+        estimated_days: parseInt(document.getElementById('bidDays').value, 10),
+        proposal: document.getElementById('bidProposal').value.trim(),
+    };
+
+    let ok, result;
+    if (mode === 'edit' && myBid) {
+        ({ ok, result } = await api(`/api/bids/${myBid.id}`, { method: 'PUT', body: JSON.stringify(payload) }));
+    } else {
+        ({ ok, result } = await api('/api/bids', { method: 'POST', body: JSON.stringify({ ...payload, project_id: parseInt(projectId, 10) }) }));
+    }
+
+    btn.disabled = false;
+
+    if (!ok) {
+        errBox.textContent = result.message || 'Could not submit bid.';
+        errBox.classList.remove('hidden');
+        return;
+    }
+
+    await loadProject();
+});
+
+// ---------------------------------------------------------------
+// LOAD PROJECT (role-aware)
+// ---------------------------------------------------------------
+async function loadProject() {
+    const { ok, result } = await api(`/api/projects/${projectId}`);
+    document.getElementById('loading').classList.add('hidden');
+
+    if (!ok) {
+        document.getElementById('errorBox').textContent = result.message || 'Could not load this project.';
+        document.getElementById('errorBox').classList.remove('hidden');
+        return;
+    }
+
+    currentProject = result.data.project;
+    document.getElementById('content').classList.remove('hidden');
+
+    document.getElementById('pTitle').textContent = currentProject.title;
+    document.getElementById('pDescription').textContent = currentProject.description;
+    const statusBadge = document.getElementById('pStatus');
+    statusBadge.textContent = currentProject.status.replace('_', ' ');
+    statusBadge.className = 'status-badge status-' + currentProject.status;
+    document.getElementById('pBudget').innerHTML = `<span class="material-symbols-outlined text-sm align-middle">payments</span> ${formatBudget(currentProject)}`;
+    document.getElementById('pCategory').textContent = currentProject.category ? 'Category: ' + currentProject.category : '';
+    document.getElementById('pDeadline').textContent = currentProject.deadline ? 'Due ' + currentProject.deadline : '';
+    document.getElementById('pBidCount').textContent = currentProject.bid_count + ' bid' + (currentProject.bid_count === 1 ? '' : 's');
+
+    renderStatusActions();
+
+    const isOwnerClient = currentUser && currentUser.role === 'client' && currentProject.client_id === currentUser.id;
+    const isFreelancer = currentUser && currentUser.role === 'freelancer';
+
+    document.getElementById('clientBidsCard').classList.add('hidden');
+    document.getElementById('freelancerBidCard').classList.add('hidden');
+
+    if (isOwnerClient || (currentUser && currentUser.role === 'admin')) {
+        renderClientBidsSection();
+    } else if (isFreelancer) {
+        document.getElementById('freelancerBidCard').classList.remove('hidden');
+        await refreshFreelancerBidArea();
+        renderStatusActions();
+    }
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try { await api('/api/auth/logout', { method: 'POST' }); } finally {
+        localStorage.clear();
+        window.location.href = '/login';
+    }
+});
+
+(async function init() {
+    await loadUser();
+    await loadProject();
+})();
+</script>
+</body>
+</html>
