@@ -23,10 +23,19 @@ class Config:
     DB_PORT = os.environ.get("DB_PORT", "3306")
     DB_NAME = os.environ.get("DB_NAME", "freelancehub")
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL",
-        f"mysql+pymysql://{DB_USER}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}",
-    )
+    _raw_db_url = os.environ.get("DATABASE_URL")
+    if _raw_db_url:
+        if _raw_db_url.startswith("postgres://"):
+            SQLALCHEMY_DATABASE_URI = _raw_db_url.replace("postgres://", "postgresql://", 1)
+        else:
+            SQLALCHEMY_DATABASE_URI = _raw_db_url
+    elif os.environ.get("DB_HOST") and os.environ.get("DB_HOST") != "localhost":
+        SQLALCHEMY_DATABASE_URI = f"mysql+pymysql://{DB_USER}:{quote_plus(DB_PASSWORD)}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    else:
+        # Fallback to SQLite in /tmp for serverless environment compatibility
+        _tmp_dir = "/tmp" if os.name != "nt" else os.getenv("TEMP", "C:\\tmp")
+        SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(_tmp_dir, 'freelancehub.db')}"
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
         "pool_recycle": 280,
