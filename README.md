@@ -1,5 +1,10 @@
 # FreelanceHub — Combined Project (Frontend + Backend)
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-00C7B7?style=for-the-badge&logo=netlify)](https://freelancerestimator.netlify.app/)
+[![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Raviteja-864/Freelancer-Project-Estimator)
+
+**🌐 Live Web Application**: [https://freelancerestimator.netlify.app/](https://freelancerestimator.netlify.app/)
+
 Your project already had a real, working Flask + MySQL backend (auth, projects,
 bids, messages, payments, reviews, admin) that renders its own HTML pages. What
 was missing was a proper public homepage and the polished branding/logo you
@@ -13,6 +18,7 @@ designed separately. This package merges the two:
 - Everything else (API routes, database models, JWT auth, dashboard, find-work,
   project/bid/message/payment flows) is your original backend, unchanged and
   still fully wired to its JavaScript `fetch()` calls.
+
 
 ## How the pages fit together
 

@@ -1,6 +1,9 @@
 # FreelanceHub Backend
 
+**🌐 Live Netlify Web App**: [https://freelancerestimator.netlify.app/](https://freelancerestimator.netlify.app/)
+
 Flask + MySQL (SQLAlchemy ORM) backend for a Fiverr/Upwork-style freelancer marketplace.
+
 
 Built **module by module**. This delivery covers:
 
