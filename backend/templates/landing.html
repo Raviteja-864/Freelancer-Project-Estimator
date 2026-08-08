@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>FreelanceHub | Premium Freelance Marketplace</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#005b7c",
+                    "surface-bright": "#f7f9fb",
+                    "on-primary-container": "#eeefff",
+                    "surface-container-highest": "#e0e3e5",
+                    "outline": "#737686",
+                    "surface-container-low": "#f2f4f6",
+                    "primary-container": "#2563eb",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary-fixed-variant": "#3f465c",
+                    "on-surface-variant": "#434655",
+                    "inverse-surface": "#2d3133",
+                    "primary": "#004ac6",
+                    "on-surface": "#191c1e",
+                    "error-container": "#ffdad6",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed-dim": "#bec6e0",
+                    "on-secondary-container": "#5c647a",
+                    "on-error": "#ffffff",
+                    "on-background": "#191c1e",
+                    "tertiary-fixed": "#c4e7ff",
+                    "background": "#f7f9fb",
+                    "secondary": "#565e74",
+                    "surface-variant": "#e0e3e5",
+                    "tertiary-container": "#00759f",
+                    "outline-variant": "#c3c6d7",
+                    "on-primary-fixed-variant": "#003ea8",
+                    "surface": "#f7f9fb",
+                    "error": "#ba1a1a",
+                    "inverse-primary": "#b4c5ff",
+                    "on-secondary-fixed": "#131b2e",
+                    "on-tertiary-container": "#e1f2ff",
+                    "surface-container": "#eceef0",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "secondary-container": "#dae2fd",
+                    "secondary-fixed": "#dae2fd",
+                    "surface-tint": "#0053db",
+                    "primary-fixed-dim": "#b4c5ff",
+                    "on-tertiary-fixed": "#001e2c",
+                    "surface-dim": "#d8dadc",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#7bd0ff",
+                    "surface-container-high": "#e6e8ea",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-primary-fixed": "#00174b",
+                    "primary-fixed": "#dbe1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "16px",
+                    "container-max": "1440px",
+                    "gutter": "24px",
+                    "stack-sm": "8px",
+                    "margin-mobile": "16px",
+                    "margin-desktop": "32px",
+                    "stack-lg": "32px",
+                    "sidebar-width": "280px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "display": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "headline-lg-mobile": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "display": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "1.4", "letterSpacing": "0.01em", "fontWeight": "500"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at top right, #38BDF8 0%, transparent 40%),
+                        radial-gradient(circle at bottom left, #2563EB 0%, transparent 40%);
+            opacity: 0.15;
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/70 backdrop-blur-md border-b border-outline-variant/30 shadow-sm">
+<div class="max-w-container-max mx-auto flex justify-between items-center px-gutter py-4">
+<div class="flex items-center gap-3">
+<img class="w-10 h-10 object-contain rounded-lg" src="/static/img/logo.png"/>
+<span class="text-headline-md font-headline-md font-bold text-primary">FreelanceHub</span>
+</div>
+<nav class="hidden md:flex items-center gap-stack-lg">
+<a class="text-label-md font-label-md text-primary font-bold border-b-2 border-primary py-1" href="/find-work">Find Work</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="/find-work">Hire Talent</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Solutions</a>
+<a class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Enterprise</a>
+</nav>
+<div class="flex items-center gap-stack-md" id="navActions">
+<button onclick="window.location.href='/login'" class="hidden sm:block text-label-md font-label-md text-primary hover:bg-primary-container/10 px-4 py-2 rounded-full transition-all active:scale-95">Log In</button>
+<button onclick="window.location.href='/register'" class="text-label-md font-label-md bg-primary text-on-primary px-6 py-2.5 rounded-full shadow-md hover:bg-primary-container active:scale-95 transition-all">Join Now</button>
+</div>
+</div>
+</header>
+<main class="relative pt-24">
+<div class="absolute inset-0 hero-gradient pointer-events-none"></div>
+<section class="relative px-margin-mobile md:px-margin-desktop py-stack-lg lg:py-20 max-w-container-max mx-auto overflow-hidden">
+<div class="grid lg:grid-cols-2 gap-12 items-center">
+<div class="z-10">
+<span class="inline-block px-4 py-1.5 rounded-full bg-secondary-container text-on-secondary-container text-label-sm font-label-sm mb-stack-md">
+                        #1 Global Freelance Platform
+                    </span>
+<h1 class="text-display font-display text-on-surface mb-stack-md tracking-tight leading-tight">
+                        Find the perfect freelance services for your <span class="text-primary-container">business</span>
+</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant mb-stack-lg max-w-xl">
+                        Connect with elite talent and executive-level experts to scale your projects with transparency and professional precision.
+                    </p>
+<form id="heroSearchForm" class="glass-card p-2 rounded-full flex items-center shadow-xl mb-stack-lg max-w-2xl">
+<div class="flex-1 flex items-center px-4">
+<span class="material-symbols-outlined text-outline">search</span>
+<input id="heroSearchInput" class="w-full bg-transparent border-none focus:ring-0 text-body-md font-body-md text-on-surface ml-2" placeholder="Search for any service..." type="text"/>
+</div>
+<button type="submit" class="bg-primary text-on-primary px-8 py-3 rounded-full font-label-md hover:bg-primary-container transition-all active:scale-95">
+                            Search
+                        </button>
+</form>
+<div class="flex flex-wrap gap-stack-lg">
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md text-on-surface">10k+</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Active Freelancers</span>
+</div>
+<div class="w-px h-10 bg-outline-variant hidden sm:block"></div>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md text-on-surface">5k+</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Successful Projects</span>
+</div>
+<div class="w-px h-10 bg-outline-variant hidden sm:block"></div>
+<div class="flex flex-col">
+<span class="text-headline-md font-headline-md text-on-surface">4.9/5</span>
+<span class="text-label-sm font-label-sm text-on-surface-variant">Customer Rating</span>
+</div>
+</div>
+</div>
+<div class="relative hidden lg:block">
+<div class="relative w-full aspect-square glass-card rounded-[2rem] overflow-hidden rotate-3 animate-float border-2 border-white/40">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0-SusMvc4Y3JvUrFGfms5e8ty8cFzo9y4aqOV9TLkJlL5No-MuYWzTl4GfHIRW3lrS4GyM6dH51VZgA0L6o-YokFxIo4Qaf4GZ847iaNCsvLaN0HJern56BsZ36G1jxZmNhOiDOhfbrASG4-BEUy7kaITieqHLN4b7oeoVSp5iF3HR0Y-k_QT4UewqabEuRb5hMihi-kBJu7ld3ENuX0YkBwHRBHlBT7JkqzVYN3a4VnbxuMPRDgjlWkxkQ54Peb7zA_kRnhrqkM"/>
+</div>
+<div class="absolute -bottom-6 -left-6 glass-card p-4 rounded-xl animate-float" style="animation-delay: -3s;">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined">verified</span>
+</div>
+<div>
+<p class="text-label-md font-label-md text-on-surface">Top 1% Talent</p>
+<p class="text-label-sm font-label-sm text-on-surface-variant">Expert Vetted</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section class="px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto">
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-surface mb-2">Popular Categories</h2>
+<p class="text-body-md font-body-md text-on-surface-variant">Explore specialized services tailored to your industry.</p>
+</div>
+<a class="text-primary font-label-md flex items-center gap-1 hover:underline" href="/find-work">
+                    See all categories <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-stack-md">
+<a href="/find-work?category=Tech" class="glass-card p-stack-lg rounded-2xl hover:bg-primary-container hover:text-on-primary transition-all group cursor-pointer block">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center mb-stack-md group-hover:bg-white group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-2">Tech</h3>
+<p class="text-body-md opacity-80 mb-4">Web, App, and Software Development with cutting-edge tech stacks.</p>
+</a>
+<a href="/find-work?category=Design" class="glass-card p-stack-lg rounded-2xl hover:bg-primary-container hover:text-on-primary transition-all group cursor-pointer block">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-tertiary flex items-center justify-center mb-stack-md group-hover:bg-white group-hover:text-tertiary transition-colors">
+<span class="material-symbols-outlined">brush</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-2">Design</h3>
+<p class="text-body-md opacity-80 mb-4">UI/UX, Branding, and Visual Identity from world-class creatives.</p>
+</a>
+<a href="/find-work?category=Marketing" class="glass-card p-stack-lg rounded-2xl hover:bg-primary-container hover:text-on-primary transition-all group cursor-pointer block">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center mb-stack-md group-hover:bg-white group-hover:text-secondary transition-colors">
+<span class="material-symbols-outlined">campaign</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-2">Marketing</h3>
+<p class="text-body-md opacity-80 mb-4">SEO, Performance, and Content Strategy to amplify your reach.</p>
+</a>
+<a href="/find-work?category=Writing" class="glass-card p-stack-lg rounded-2xl hover:bg-primary-container hover:text-on-primary transition-all group cursor-pointer block">
+<div class="w-12 h-12 rounded-xl bg-primary-fixed text-primary flex items-center justify-center mb-stack-md group-hover:bg-white group-hover:text-primary transition-colors">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+<h3 class="text-headline-md font-headline-md mb-2">Writing</h3>
+<p class="text-body-md opacity-80 mb-4">Technical, Creative, and SEO Copywriting for modern brands.</p>
+</a>
+</div>
+</section>
+<section class="px-margin-mobile md:px-margin-desktop py-stack-lg max-w-container-max mx-auto mb-20">
+<div class="bg-primary-container rounded-[2.5rem] p-12 lg:p-20 relative overflow-hidden text-center lg:text-left">
+<div class="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
+<div>
+<h2 class="text-headline-lg font-headline-lg text-on-primary mb-6 lg:text-5xl">Ready to elevate your projects?</h2>
+<p class="text-body-lg font-body-lg text-primary-fixed mb-8">Join the world's most sophisticated freelance network today and start collaborating with the elite.</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+<button onclick="window.location.href='/register'" class="bg-surface text-primary px-8 py-4 rounded-full font-headline-md shadow-xl hover:scale-105 active:scale-95 transition-all">Get Started Now</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="bg-surface-container-high border-t border-outline-variant/30">
+<div class="max-w-container-max mx-auto px-margin-desktop py-stack-lg">
+<div class="flex flex-col md:flex-row justify-between items-center pt-8 gap-4">
+<p class="text-label-sm font-label-sm text-on-surface-variant">© 2024 FreelanceHub Inc. All rights reserved.</p>
+</div>
+</div>
+</footer>
+<script>
+        const searchInput = document.getElementById('heroSearchInput');
+        document.getElementById('heroSearchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const q = encodeURIComponent(searchInput.value.trim());
+            window.location.href = '/find-work' + (q ? ('?keyword=' + q) : '');
+        });
+
+        // Swap Log In/Join Now for a Dashboard link if already authenticated
+        if (localStorage.getItem('access_token')) {
+            document.getElementById('navActions').innerHTML =
+                '<button onclick="window.location.href=\'/dashboard\'" class="text-label-md font-label-md bg-primary text-on-primary px-6 py-2.5 rounded-full shadow-md hover:bg-primary-container active:scale-95 transition-all">Go to Dashboard</button>';
+        }
+    </script>
+</body></html>

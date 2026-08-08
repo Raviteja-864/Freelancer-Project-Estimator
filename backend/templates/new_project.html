@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Post a Project | FreelanceHub</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#2563eb", "on-surface-variant": "#434655", "primary": "#004ac6",
+                    "on-surface": "#191c1e", "error-container": "#ffdad6", "on-error-container": "#93000a",
+                    "background": "#f7f9fb", "secondary": "#565e74", "surface": "#f7f9fb", "on-primary": "#ffffff",
+                    "surface-container-low": "#f2f4f6"
+            },
+            "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }
+          },
+        },
+      }
+    </script>
+<style>
+    body { font-family: 'Inter', sans-serif; background: #f7f9fb; }
+    .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; vertical-align: middle; }
+    .card { background: #fff; border-radius: 0.75rem; border: 1px solid #f1f1f3; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+    .input { width:100%; padding: 0.75rem 1rem; background:#f2f4f6; border:1px solid rgba(195,198,215,0.4); border-radius:0.5rem; font-size:14px; outline:none; }
+    .input:focus { border-color:#004ac6; box-shadow:0 0 0 2px rgba(0,74,198,0.15); }
+</style>
+</head>
+<body class="min-h-screen">
+
+<header class="bg-white border-b border-gray-100 sticky top-0 z-20">
+  <div class="max-w-2xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/dashboard" class="text-xl font-bold text-primary">FreelanceHub</a>
+    <div class="flex items-center gap-4">
+      <span id="userName" class="text-sm text-on-surface-variant hidden sm:inline"></span>
+      <button id="logoutBtn" class="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100">Log Out</button>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-6 py-8">
+  <a href="/dashboard" class="text-sm text-primary font-medium mb-4 inline-flex items-center gap-1"><span class="material-symbols-outlined text-base">arrow_back</span> Back to Dashboard</a>
+
+  <div class="card p-8 mt-4">
+    <h1 class="text-xl font-bold text-on-surface mb-1">Post a New Project</h1>
+    <p class="text-sm text-on-surface-variant mb-6">Describe what you need done and freelancers will start bidding.</p>
+
+    <div class="hidden mb-4 px-4 py-3 rounded-lg bg-error-container text-on-error-container text-sm" id="errorBox"></div>
+
+    <form id="projectForm" class="space-y-5">
+      <div>
+        <label class="text-xs font-semibold text-secondary block mb-1.5">Title <span class="font-normal text-on-surface-variant">(5-200 characters)</span></label>
+        <input class="input" id="title" type="text" required minlength="5" maxlength="200" placeholder="e.g. Build a responsive marketing website"/>
+      </div>
+      <div>
+        <label class="text-xs font-semibold text-secondary block mb-1.5">Description <span class="font-normal text-on-surface-variant">(min 20 characters)</span></label>
+        <textarea class="input" id="description" rows="5" required minlength="20" placeholder="Describe the scope of work, requirements, and deliverables..."></textarea>
+      </div>
+      <div>
+        <label class="text-xs font-semibold text-secondary block mb-1.5">Category <span class="font-normal text-on-surface-variant">(optional)</span></label>
+        <input class="input" id="category" type="text" placeholder="e.g. Web Development"/>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="text-xs font-semibold text-secondary block mb-1.5">Min Budget (USD)</label>
+          <input class="input" id="budgetMin" type="number" min="0" step="0.01" placeholder="Optional"/>
+        </div>
+        <div>
+          <label class="text-xs font-semibold text-secondary block mb-1.5">Max Budget (USD)</label>
+          <input class="input" id="budgetMax" type="number" min="0" step="0.01" placeholder="Optional"/>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs font-semibold text-secondary block mb-1.5">Deadline <span class="font-normal text-on-surface-variant">(optional)</span></label>
+        <input class="input" id="deadline" type="date"/>
+      </div>
+      <button class="w-full py-3 bg-primary text-white rounded-lg font-semibold hover:bg-primary-container transition-colors" id="submitBtn" type="submit">Post Project</button>
+    </form>
+  </div>
+</main>
+
+<script>
+const token = localStorage.getItem('access_token');
+if (!token) window.location.href = '/login';
+
+async function api(path, options = {}) {
+    const res = await fetch(path, {
+        ...options,
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token,
+            ...(options.headers || {})
+        }
+    });
+    const result = await res.json();
+    if (!result.success && res.status === 401) {
+        localStorage.clear();
+        window.location.href = '/login';
+        throw new Error('Unauthorized');
+    }
+    return { ok: result.success, status: res.status, result };
+}
+
+async function loadUser() {
+    const { ok, result } = await api('/api/auth/me');
+    if (!ok) return;
+    const user = result.data.user;
+    document.getElementById('userName').textContent = user.name + ' (' + user.role + ')';
+    if (user.role !== 'client') {
+        window.location.href = '/dashboard';
+    }
+}
+
+document.getElementById('projectForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const errBox = document.getElementById('errorBox');
+    errBox.classList.add('hidden');
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Posting...';
+
+    const budgetMin = document.getElementById('budgetMin').value;
+    const budgetMax = document.getElementById('budgetMax').value;
+    const deadline = document.getElementById('deadline').value;
+
+    const payload = {
+        title: document.getElementById('title').value.trim(),
+        description: document.getElementById('description').value.trim(),
+        category: document.getElementById('category').value.trim() || undefined,
+        budget_min: budgetMin ? parseFloat(budgetMin) : undefined,
+        budget_max: budgetMax ? parseFloat(budgetMax) : undefined,
+        deadline: deadline || undefined
+    };
+
+    const { ok, result } = await api('/api/projects', { method: 'POST', body: JSON.stringify(payload) });
+    btn.disabled = false;
+    btn.textContent = 'Post Project';
+
+    if (!ok) {
+        errBox.textContent = result.message || 'Could not create project.';
+        errBox.classList.remove('hidden');
+        return;
+    }
+
+    window.location.href = '/projects/' + result.data.project.id;
+});
+
+document.getElementById('logoutBtn').addEventListener('click', async () => {
+    try { await api('/api/auth/logout', { method: 'POST' }); } finally {
+        localStorage.clear();
+        window.location.href = '/login';
+    }
+});
+
+loadUser();
+</script>
+</body>
+</html>
