@@ -1,59 +1,101 @@
-# FreelanceHub — Combined Project (Frontend + Backend)
+# 🚀 Freelancer Project Estimator & Marketplace
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Netlify-00C7B7?style=for-the-badge&logo=netlify)](https://freelancerestimator.netlify.app/)
 [![GitHub Repo](https://img.shields.io/badge/GitHub-Repository-181717?style=for-the-badge&logo=github)](https://github.com/Raviteja-864/Freelancer-Project-Estimator)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![Flask](https://img.shields.io/badge/Flask-3.0.3-000000?style=for-the-badge&logo=flask&logoColor=white)](https://flask.palletsprojects.com/)
 
 **🌐 Live Web Application**: [https://freelancerestimator.netlify.app/](https://freelancerestimator.netlify.app/)
 
-Your project already had a real, working Flask + MySQL backend (auth, projects,
-bids, messages, payments, reviews, admin) that renders its own HTML pages. What
-was missing was a proper public homepage and the polished branding/logo you
-designed separately. This package merges the two:
+A full-stack freelancer marketplace and project estimator web application. Built with a modular Python Flask backend architecture and a responsive static frontend optimized for single-page and multi-page routing on Netlify.
 
-- Added a real marketing homepage at `/` (`templates/landing.html`), built from
-  your polished frontend mockup, linking to the working `/login` and
-  `/register` pages instead of just redirecting.
-- Added your logo (`backend/static/img/logo.png`) to the homepage, login,
-  register, dashboard, and find-work pages.
-- Everything else (API routes, database models, JWT auth, dashboard, find-work,
-  project/bid/message/payment flows) is your original backend, unchanged and
-  still fully wired to its JavaScript `fetch()` calls.
+---
 
+## 📁 Repository Architecture & Directory Structure
 
-## How the pages fit together
-
-| URL              | Template                        | Notes |
-|-------------------|----------------------------------|-------|
-| `/`               | `landing.html`                  | Public marketing homepage (new) |
-| `/login`          | `auth/login.html`                | Calls `POST /api/auth/login` |
-| `/register`       | `auth/register.html`             | Calls `POST /api/auth/register` |
-| `/dashboard`      | `dashboard.html`                 | Role-based (client/freelancer/admin) |
-| `/find-work`      | `find_work.html`                 | Browse & bid on open projects |
-| `/projects/<id>`  | `project_detail.html`            | Existing |
-| `/messages/<id>`  | `messages.html`                  | Existing |
-| `/payments/<id>`  | `payment.html`                   | Existing |
-| `/admin`          | `admin.html`                     | Existing |
-
-## Running it locally
-
-```bash
-cd backend
-python -m venv venv
-source venv/bin/activate        # Windows: venv\Scripts\activate
-pip install -r requirements.txt
-
-cp .env.example .env            # then edit DB credentials, SECRET_KEY, JWT_SECRET_KEY
-mysql -u root -p < schema.sql    # creates the freelancehub database/tables
-
-python app.py
+```
+Freelancer-Project-Estimator/
+├── public/                     # Frontend Distribution (Netlify Static Build)
+│   ├── index.html              # Marketing Homepage
+│   ├── login.html              # User Authentication Login
+│   ├── register.html           # Account Registration
+│   ├── dashboard.html          # Role-Based User Dashboard
+│   ├── find-work.html          # Job Board & Freelance Bidding
+│   ├── new-project.html        # Client Project Posting
+│   ├── project_detail.html     # Project Bidding & Milestone View
+│   ├── messages.html           # Project Chat & Communication
+│   ├── payment.html            # Escrow & Payment Tracking
+│   ├── admin.html              # Platform Management Console
+│   ├── _redirects              # Netlify Routing & SPA Rewrite Rules
+│   └── static/                 # CSS/JS Assets, Logos & Branding
+│
+├── backend/                    # Core Flask Microservice
+│   ├── controllers/            # API Controllers (Auth, Project, Bid, Chat, Payment)
+│   ├── routes/                 # Flask Blueprints & Route Definitions
+│   ├── services/               # Database Queries & Business Logic
+│   ├── utils/                  # Auth Decorators, Input Validators, API Responses
+│   ├── models.py               # SQLAlchemy ORM Database Schemas
+│   ├── app.py                  # Flask Application Factory
+│   ├── config.py               # Environment & Database Configuration
+│   ├── extensions.py           # SQLAlchemy, JWT, Bcrypt & CORS Setup
+│   ├── blocklist.py            # JWT Token Revocation Registry
+│   └── schema.sql              # Database DDL Schema Script
+│
+├── netlify/                    # Netlify Serverless Function Config
+│   └── functions/
+│       ├── app.py              # WSGI Serverless Gateway Handler
+│       └── requirements.txt    # Netlify Function Dependencies
+│
+├── .gitignore                  # Git Exclusion Rules
+├── netlify.toml                # Netlify Deployment Configuration
+├── README.md                   # Project Documentation
+├── requirements.txt            # Root Dependencies Manifest
+└── runtime.txt                 # Python Runtime Specification (3.11)
 ```
 
-Then open **http://localhost:5000/** — you'll land on the new homepage, and
-"Join Now" / "Log In" take you into the real, working app.
+---
 
-## Notes
-- The database must be MySQL (per `config.py`). If you don't have MySQL
-  installed, set `DATABASE_URL` in `.env` to a SQLite URL instead
-  (e.g. `sqlite:///freelancehub.db`) for local testing.
-- No design/logic in the controllers, services, or routes was changed —
-  only templates and the `/` route.
+## 🛠️ Key Features
+
+* **JWT Authentication**: User login/registration with role-based access control (`client`, `freelancer`, `admin`).
+* **Project Management**: Clients can post projects, view incoming bids, manage project status, and award contracts.
+* **Bidding System**: Freelancers can browse open projects and submit competitive proposals.
+* **Messaging & Chat**: Real-time project communication between clients and freelancers.
+* **Payment & Escrow Tracking**: Manage payment milestones and status (`pending`, `paid`, `cancelled`).
+* **Reviews & Ratings**: Mutual rating and review system post project completion.
+* **Admin Control Panel**: System administration dashboard for platform monitoring.
+
+---
+
+## ⚡ Quick Start (Local Development)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/Raviteja-864/Freelancer-Project-Estimator.git
+cd Freelancer-Project-Estimator
+
+# 2. Set up virtual environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# 3. Install dependencies
+pip install -r requirements.txt
+
+# 4. Set up environment variables
+cp backend/.env.example backend/.env
+
+# 5. Run the Flask application
+python backend/app.py
+```
+
+Open **http://localhost:5000** in your browser to access the application locally.
+
+---
+
+## 🌐 Deployment (Netlify)
+
+This project is configured for automated build and deployment on **Netlify**:
+
+* **Publish Directory**: `public`
+* **Build Command**: Auto-detected via `netlify.toml`
+* **Live Site**: [https://freelancerestimator.netlify.app/](https://freelancerestimator.netlify.app/)
