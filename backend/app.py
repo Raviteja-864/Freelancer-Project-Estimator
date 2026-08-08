@@ -7,7 +7,11 @@ from blocklist import BLOCKLIST
 
 
 def create_app(config_name=None):
-    app = Flask(__name__)
+    backend_dir = os.path.dirname(os.path.abspath(__file__))
+    template_dir = os.path.join(backend_dir, "templates")
+    static_dir = os.path.join(backend_dir, "static")
+    app = Flask(__name__, template_folder=template_dir, static_folder=static_dir)
+
 
     config_name = config_name or os.environ.get("FLASK_ENV", "development")
     app.config.from_object(config_by_name[config_name])

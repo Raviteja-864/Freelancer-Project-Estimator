@@ -1,5 +1,6 @@
 [build]
-  functions = "functions"
+  functions = "netlify/functions"
+  publish = "backend/static"
 
 [build.environment]
   PYTHON_VERSION = "3.11"
@@ -9,3 +10,4 @@
   from = "/*"
   to = "/.netlify/functions/app"
   status = 200
+  force = true
