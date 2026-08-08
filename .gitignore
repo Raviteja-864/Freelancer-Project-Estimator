@@ -1,0 +1,29 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Database & Instance
+*.db
+*.sqlite
+*.sqlite3
+instance/
+backend/instance/
+
+# Secrets & Environment variables
+.env
+.env.local
+
+# IDE & OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
